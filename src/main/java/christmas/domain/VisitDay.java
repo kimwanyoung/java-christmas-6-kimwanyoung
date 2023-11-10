@@ -1,5 +1,11 @@
 package christmas.domain;
 
+import static christmas.constants.EventDayConstants.CHRISTMAS_DAY;
+import static christmas.constants.EventDayConstants.EVENT_END_DAY;
+import static christmas.constants.EventDayConstants.EVENT_MONTH;
+import static christmas.constants.EventDayConstants.EVENT_START_DAY;
+import static christmas.constants.EventDayConstants.EVENT_YEAR;
+import static christmas.constants.EventDayConstants.SPECIAL_DAYS;
 import static christmas.constants.ExceptionMessage.INVALID_DAY_ERROR_MESSAGE;
 import static java.time.DayOfWeek.FRIDAY;
 import static java.time.DayOfWeek.MONDAY;
@@ -27,22 +33,21 @@ public class VisitDay {
     }
 
     public boolean isChristmasDay() {
-        return 1 <= visitDay && visitDay <= 25;
+        return EVENT_START_DAY <= visitDay && visitDay <= CHRISTMAS_DAY;
     }
 
     public boolean isSpecialDay() {
-        List<Integer> specialDay = List.of(3, 10, 17, 24, 25, 31);
-        return specialDay.contains(visitDay);
+        return SPECIAL_DAYS.contains(visitDay);
     }
 
     public boolean isWeekday() {
-        LocalDate localDate = LocalDate.of(2023, 12, visitDay);
+        LocalDate localDate = LocalDate.of(EVENT_YEAR, EVENT_MONTH, visitDay);
         DayOfWeek today = localDate.getDayOfWeek();
         return List.of(SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY).contains(today);
     }
 
     public boolean isWeekend() {
-        LocalDate localDate = LocalDate.of(2023, 12, visitDay);
+        LocalDate localDate = LocalDate.of(EVENT_YEAR, EVENT_MONTH, visitDay);
         DayOfWeek today = localDate.getDayOfWeek();
         return List.of(FRIDAY, SATURDAY).contains(today);
     }
@@ -54,6 +59,6 @@ public class VisitDay {
     }
 
     private boolean isOutOfRange(int visitDay) {
-        return 31 < visitDay || visitDay < 1;
+        return EVENT_END_DAY < visitDay || visitDay < EVENT_START_DAY;
     }
 }
