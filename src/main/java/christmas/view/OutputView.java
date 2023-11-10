@@ -1,7 +1,7 @@
 package christmas.view;
 
+import christmas.domain.DiscountResultDto;
 import christmas.domain.EventName;
-import christmas.domain.EventStatistics;
 import christmas.domain.dto.OrderedMenuDto;
 import christmas.domain.menu.Foods;
 import java.text.DecimalFormat;
@@ -36,16 +36,17 @@ public class OutputView {
         System.out.println(amountFormat.format(totalAmount));
     }
 
-    public static void displayGift(EventStatistics eventStatistics) {
+    public static void displayGift(DiscountResultDto discountResultDto) {
         System.out.println("<증정 메뉴>");
-        if (eventStatistics.hasGift()) {
+        if (discountResultDto.hasGift()) {
             System.out.println("샴페인 1개");
             return;
         }
         System.out.println("없음");
     }
 
-    public static void displayTotalDiscounts(Map<EventName, Integer> discountStatistics) {
+    public static void displayTotalDiscounts(DiscountResultDto discountResultDto) {
+        Map<EventName, Integer> discountStatistics = discountResultDto.discountResult();
         System.out.println("<혜택 내역>");
         if (discountStatistics.isEmpty()) {
             System.out.println("없음");
