@@ -13,7 +13,6 @@ import christmas.domain.dto.OrderedMenuDto;
 import christmas.domain.menu.Foods;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class Discount {
 
@@ -51,7 +50,7 @@ public class Discount {
 
     private int weekdayDiscount() {
         if (visitDay.isWeekday()) {
-            Set<Foods> orderedFood = orderedMenuDto.orderedMenu().keySet();
+            Map<Foods, Integer> orderedFood = orderedMenuDto.orderedMenu();
             int dessertCount = calculateFoodCountInCategory(DESSERT, orderedFood);
             return dessertCount * -2023;
         }
@@ -60,7 +59,7 @@ public class Discount {
 
     private int weekendDiscount() {
         if (visitDay.isWeekend()) {
-            Set<Foods> orderedFood = orderedMenuDto.orderedMenu().keySet();
+            Map<Foods, Integer> orderedFood = orderedMenuDto.orderedMenu();
             int mainCourseCount = calculateFoodCountInCategory(MAIN_COURSE, orderedFood);
             return mainCourseCount * -2023;
         }
