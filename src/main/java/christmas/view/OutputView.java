@@ -1,5 +1,6 @@
 package christmas.view;
 
+import christmas.domain.EventName;
 import christmas.domain.EventStatistics;
 import christmas.domain.dto.OrderedMenuDto;
 import christmas.domain.menu.Foods;
@@ -42,5 +43,12 @@ public class OutputView {
             return;
         }
         System.out.println("없음");
+    }
+
+    public static void displayTotalDiscounts(Map<EventName, Integer> discountStatistics) {
+        System.out.println("<혜택 내역>");
+        for (Entry<EventName, Integer> discount : discountStatistics.entrySet()) {
+            System.out.println(discount.getKey().getEventName() + " : " + discount.getValue());
+        }
     }
 }

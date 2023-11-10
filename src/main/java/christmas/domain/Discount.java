@@ -1,11 +1,17 @@
 package christmas.domain;
 
+import static christmas.domain.EventName.CHRISTMAS_DISCOUNT;
+import static christmas.domain.EventName.SPECIAL_DISCOUNT;
+import static christmas.domain.EventName.WEEKDAY_DISCOUNT;
+import static christmas.domain.EventName.WEEKEND_DISCOUNT;
 import static christmas.domain.menu.FoodCategory.DESSERT;
 import static christmas.domain.menu.FoodCategory.MAIN_COURSE;
 import static christmas.domain.menu.FoodCategory.calculateFoodCountInCategory;
 
 import christmas.domain.dto.OrderedMenuDto;
 import christmas.domain.menu.Foods;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 public class Discount {
@@ -18,9 +24,18 @@ public class Discount {
         this.orderedMenuDto = orderedMenuDto;
     }
 
+    public Map<EventName, Integer> calculatePossibleDiscount() {
+        Map<EventName, Integer> discountStatistics = new HashMap<>();
+        addDiscountGreaterThanZero(discountStatistics, CHRISTMAS_DISCOUNT, christmasDdayDiscount());
+        addDiscountGreaterThanZero(discountStatistics, WEEKDAY_DISCOUNT, weekdayDiscount());
+        addDiscountGreaterThanZero(discountStatistics, WEEKEND_DISCOUNT, weekendDiscount());
+        addDiscountGreaterThanZero(discountStatistics, SPECIAL_DISCOUNT, specialDiscount());
+        return discountStatistics;
+    }
+
     private int christmasDdayDiscount() {
         if (visitDay.isChristmasDay()) {
-            return -1000 + 100 * (visitDay.getDay() - 1);
+            return -(1000 + 100 * (visitDay.getDay() - 1));
         }
         return 0;
     }
@@ -48,6 +63,14 @@ public class Discount {
             return mainCourseCount * -2023;
         }
         return 0;
+    }
+
+    private void addDiscountGreaterThanZero(
+            Map<EventName, Integer> discountStatistics, EventName name, int discountAmount
+    ) {
+        if (discountAmount < 0) {
+            discountStatistics.put(name, discountAmount);
+        }
     }
 }
 
