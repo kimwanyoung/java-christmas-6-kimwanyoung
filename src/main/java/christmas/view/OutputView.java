@@ -102,6 +102,11 @@ public class OutputView {
     public static void displayBadge(DiscountResult discountResult) {
         System.out.println(EVENT_BADGE);
         int totalDiscountAmount = discountResult.calculateTotalDiscountAmount();
+        String badge = Badge.calculateBadge(totalDiscountAmount);
+        if (badge == null) {
+            System.out.println(NOTHING);
+            return;
+        }
         System.out.println(Badge.calculateBadge(totalDiscountAmount));
     }
 
