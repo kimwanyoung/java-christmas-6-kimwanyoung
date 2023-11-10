@@ -1,6 +1,7 @@
 package christmas.utils;
 
 import static christmas.domain.menu.Foods.convertStringToFoods;
+import static christmas.view.InputView.INVALID_MENU_ORDER_ERROR_MESSAGE;
 
 import christmas.domain.menu.Foods;
 import java.util.Arrays;
@@ -31,10 +32,10 @@ public class Converter {
 
     private static void validateMenu(Map<Foods, Integer> menuResult, Foods menuName) {
         if (menuName == null) {
-            throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
+            throw new IllegalArgumentException(INVALID_MENU_ORDER_ERROR_MESSAGE);
         }
         if (hasDuplicateMenu(menuResult, menuName)) {
-            throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
+            throw new IllegalArgumentException(INVALID_MENU_ORDER_ERROR_MESSAGE);
         }
     }
 

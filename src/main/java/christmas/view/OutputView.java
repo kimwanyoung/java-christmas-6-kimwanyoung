@@ -51,7 +51,6 @@ public class OutputView {
     }
 
     public static void displayTotalOrderAmount(OrderedMenuDto orderedMenuDto) {
-
         int totalAmount = orderedMenuDto.totalAmount();
         System.out.println(ORDER_TOTAL_AMOUNT);
         System.out.println(formattedAmount(totalAmount));

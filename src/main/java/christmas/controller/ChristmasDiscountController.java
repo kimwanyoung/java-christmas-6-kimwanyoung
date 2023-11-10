@@ -10,22 +10,61 @@ import christmas.view.OutputView;
 
 public class ChristmasDiscountController {
 
+    private Discount discount;
+    private VisitDay visitDay;
+    private OrderedMenu orderedMenu;
+    private OrderedMenuDto orderedMenuDto;
+    private DiscountResult discountResult;
+
     public void run() {
         OutputView.displayWelcomeMessage();
-        VisitDay visitDay = new VisitDay(InputView.getVisitDayFromInput());
-        OrderedMenu orderedMenu = new OrderedMenu(InputView.getMenuAndCountFromInput());
+        createOrderStatus();
         OutputView.displayEventPreviewMessage();
-        OrderedMenuDto orderedMenuDto = orderedMenu.toOrderedMenuDto();
+        displayOrderInformation();
+        createDiscountStatus();
+        displayDiscountInformation();
+    }
+
+    private void displayOrderInformation() {
         OutputView.displayOrderedMenu(orderedMenuDto);
         OutputView.displayTotalOrderAmount(orderedMenuDto);
-        boolean hasGift = orderedMenuDto.totalAmount() > 120000;
-        Discount discount = new Discount(visitDay, orderedMenuDto);
-        DiscountResult discountResult = new DiscountResult(
-                discount.calculateDiscountResult(), hasGift);
+    }
+
+    private void displayDiscountInformation() {
         OutputView.displayGift(discountResult);
         OutputView.displayTotalDiscounts(discountResult);
         OutputView.displayTotalDiscountAmount(discountResult);
         OutputView.displayFinalPayment(orderedMenuDto, discountResult);
         OutputView.displayBadge(discountResult);
+    }
+
+    private void createOrderStatus() {
+        visitDay = createValidVisitDay();
+        orderedMenu = createValidOrderMenu();
+        orderedMenuDto = orderedMenu.toOrderedMenuDto();
+    }
+
+    private void createDiscountStatus() {
+        boolean hasGift = orderedMenuDto.totalAmount() > 120000;
+        discount = new Discount(visitDay, orderedMenuDto);
+        discountResult = new DiscountResult(discount.calculateDiscountResult(), hasGift);
+    }
+
+    private VisitDay createValidVisitDay() {
+        try {
+            return new VisitDay(InputView.getVisitDayFromInput());
+        } catch (IllegalArgumentException exception) {
+            System.out.println(exception.getMessage());
+            return createValidVisitDay();
+        }
+    }
+
+    private OrderedMenu createValidOrderMenu() {
+        try {
+            return new OrderedMenu(InputView.getMenuAndCountFromInput());
+        } catch (IllegalArgumentException exception) {
+            System.out.println(exception.getMessage());
+            return createValidOrderMenu();
+        }
     }
 }
