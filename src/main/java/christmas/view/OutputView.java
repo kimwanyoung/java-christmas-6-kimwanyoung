@@ -62,7 +62,7 @@ public class OutputView {
         Map<EventName, Integer> discountStatistics = discountResultDto.discountResult();
         int totalAmount = 0;
         for (int amount : discountStatistics.values()) {
-            totalAmount -= amount;
+            totalAmount += amount;
         }
         System.out.println(totalAmount);
     }
