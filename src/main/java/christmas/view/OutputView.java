@@ -1,5 +1,6 @@
 package christmas.view;
 
+import christmas.domain.EventStatistics;
 import christmas.domain.dto.OrderedMenuDto;
 import christmas.domain.menu.Foods;
 import java.text.DecimalFormat;
@@ -32,5 +33,14 @@ public class OutputView {
         int totalAmount = orderedMenuDto.totalAmount();
         System.out.println("<할인 전 총주문 금액>");
         System.out.println(amountFormat.format(totalAmount));
+    }
+
+    public static void displayGift(EventStatistics eventStatistics) {
+        System.out.println("<증정 메뉴>");
+        if (eventStatistics.hasGift()) {
+            System.out.println("샴페인 1개");
+            return;
+        }
+        System.out.println("없음");
     }
 }
