@@ -36,6 +36,7 @@ public class Converter {
             validateMenu(menuResult, menuName);
             menuResult.put(menuName, menuAmount);
         }
+        validateOverTwenty(menuResult);
         return menuResult;
     }
 
@@ -44,9 +45,6 @@ public class Converter {
             throw new IllegalArgumentException(INVALID_MENU_ORDER_ERROR_MESSAGE);
         }
         if (hasDuplicateMenu(menuResult, menuName)) {
-            throw new IllegalArgumentException(INVALID_MENU_ORDER_ERROR_MESSAGE);
-        }
-        if (hasOverThanTwenty(menuResult)) {
             throw new IllegalArgumentException(INVALID_MENU_ORDER_ERROR_MESSAGE);
         }
     }
@@ -59,12 +57,14 @@ public class Converter {
         return Arrays.asList(input.split(COMMA));
     }
 
-    private static boolean hasOverThanTwenty(Map<Foods, Integer> menuResult) {
+    private static void validateOverTwenty(Map<Foods, Integer> menuResult) {
         int count = 0;
         for (int menuCount : menuResult.values()) {
             count += menuCount;
         }
-        return count > 20;
+        if (count > 20) {
+            throw new IllegalArgumentException(INVALID_MENU_ORDER_ERROR_MESSAGE);
+        }
     }
 
     private static List<String> splitByDash(String menu) {
