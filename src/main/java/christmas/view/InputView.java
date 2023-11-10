@@ -1,6 +1,7 @@
 package christmas.view;
 
 import camp.nextstep.edu.missionutils.Console;
+import christmas.domain.menu.Foods;
 import christmas.utils.Converter;
 import java.util.Map;
 
@@ -24,7 +25,7 @@ public class InputView {
         }
     }
 
-    public static Map<String, Integer> getMenuAndCountFromInput() {
+    public static Map<Foods, Integer> getMenuAndCountFromInput() {
         try {
             String input = read();
             validateMenuFormat(input);

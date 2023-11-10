@@ -1,5 +1,8 @@
 package christmas.utils;
 
+import static christmas.domain.menu.Foods.convertStringToFoods;
+
+import christmas.domain.menu.Foods;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -13,23 +16,30 @@ public class Converter {
     private Converter() {
     }
 
-    public static Map<String, Integer> convertToMenuResult(String input) {
+    public static Map<Foods, Integer> convertToMenuResult(String input) {
         List<String> splitedMenus = splitByComma(input);
-        Map<String, Integer> menuResult = new HashMap<>();
+        Map<Foods, Integer> menuResult = new HashMap<>();
         for (String menu : splitedMenus) {
             List<String> menuAndAmount = splitByDash(menu);
-            String menuName = menuAndAmount.get(0);
+            Foods menuName = convertStringToFoods(menuAndAmount.get(0));
             Integer menuAmount = Integer.parseInt(menuAndAmount.get(1));
-            validateDuplicateMenu(menuResult, menuName);
+            validateMenu(menuResult, menuName);
             menuResult.put(menuName, menuAmount);
         }
         return menuResult;
     }
 
-    private static void validateDuplicateMenu(Map<String, Integer> menuResult, String menuName) {
-        if (menuResult.containsKey(menuName)) {
+    private static void validateMenu(Map<Foods, Integer> menuResult, Foods menuName) {
+        if (menuName == null) {
             throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
         }
+        if (hasDuplicateMenu(menuResult, menuName)) {
+            throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
+        }
+    }
+
+    private static boolean hasDuplicateMenu(Map<Foods, Integer> menuResult, Foods menuName) {
+        return menuResult.containsKey(menuName);
     }
 
     private static List<String> splitByComma(String input) {
