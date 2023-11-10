@@ -26,5 +26,6 @@ public class ChristmasDiscountController {
         OutputView.displayTotalDiscounts(discountResult);
         OutputView.displayTotalDiscountAmount(discountResult);
         OutputView.displayFinalPayment(orderedMenuDto, discountResult);
+        OutputView.displayBadge(discountResult);
     }
 }

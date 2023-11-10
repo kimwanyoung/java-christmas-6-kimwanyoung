@@ -1,6 +1,7 @@
 package christmas.view;
 
 import static christmas.constants.DiscountInfoConstants.DISCOUNT_DETAILS;
+import static christmas.constants.DiscountInfoConstants.EVENT_BADGE;
 import static christmas.constants.DiscountInfoConstants.FINAL_PAYMENT_AMOUNT;
 import static christmas.constants.DiscountInfoConstants.GIFT_MENU;
 import static christmas.constants.DiscountInfoConstants.ORDER_MENU;
@@ -9,6 +10,7 @@ import static christmas.constants.DiscountInfoConstants.TOTAL_DISCOUNT_AMOUNT;
 import static christmas.domain.menu.Foods.CHAMPAGNE;
 import static christmas.domain.menu.Foods.calculateFoodsAmount;
 
+import christmas.domain.Badge;
 import christmas.domain.DiscountResult;
 import christmas.domain.EventName;
 import christmas.domain.dto.OrderedMenuDto;
@@ -96,6 +98,12 @@ public class OutputView {
             return;
         }
         System.out.printf(WON, formattedAmount(totalAmount - discountAmount));
+    }
+
+    public static void displayBadge(DiscountResult discountResult) {
+        System.out.println(EVENT_BADGE);
+        int totalDiscountAmount = discountResult.calculateTotalDiscountAmount();
+        System.out.println(Badge.calculateBadge(totalDiscountAmount));
     }
 
     private static String formattedAmount(int amount) {

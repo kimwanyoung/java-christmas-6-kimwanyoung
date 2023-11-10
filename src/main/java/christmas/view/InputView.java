@@ -8,6 +8,7 @@ import java.util.Map;
 public class InputView {
 
     private static final String VISIT_DAY_INPUT_MESSAGE = "12월 중 식당 예상 방문 날짜는 언제인가요? (숫자만 입력해 주세요!)";
+    private static final String ORDER_MENU_INPUT_MESSAGE = "주문하실 메뉴를 메뉴와 개수를 알려 주세요. (e.g. 해산물파스타-2,레드와인-1,초코케이크-1)";
     public static final String INVALID_DAY_ERROR_MESSAGE = "[ERROR] 유효하지 않은 날짜입니다. 다시 입력해 주세요.";
     private static final String INVALID_MENU_ORDER_ERROR_MESSAGE = "[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.";
     private static final String MENU_INPUT_FORMAT = "^[가-힣]+-[1-9]\\d*((,[가-힣]+-[1-9]\\d*)+)?$";
@@ -27,6 +28,7 @@ public class InputView {
 
     public static Map<Foods, Integer> getMenuAndCountFromInput() {
         try {
+            System.out.println(ORDER_MENU_INPUT_MESSAGE);
             String input = read();
             validateMenuFormat(input);
             return Converter.convertToMenuResult(input);
