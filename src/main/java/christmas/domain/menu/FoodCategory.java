@@ -14,6 +14,7 @@ import static christmas.domain.menu.Foods.T_BONE_STEAK;
 import static christmas.domain.menu.Foods.ZERO_COKE;
 
 import java.util.List;
+import java.util.Set;
 
 public enum FoodCategory {
     APPETIZER("애피타이저", List.of(MUSHROOM_SOUP, TAPAS, CAESAR_SALAD)),
@@ -27,5 +28,15 @@ public enum FoodCategory {
     FoodCategory(String name, List<Foods> foods) {
         this.name = name;
         this.foods = foods;
+    }
+
+    public static int calculateFoodCountInCategory(FoodCategory foodCategory, Set<Foods> foods) {
+        int count = 0;
+        for (Foods food : foods) {
+            if (foodCategory.foods.contains(food)) {
+                count++;
+            }
+        }
+        return count;
     }
 }

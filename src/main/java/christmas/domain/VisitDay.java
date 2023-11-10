@@ -22,6 +22,10 @@ public class VisitDay {
         this.visitDay = visitDay;
     }
 
+    public int getDay() {
+        return visitDay;
+    }
+
     public boolean isChristmasDay() {
         return 1 <= visitDay && visitDay <= 25;
     }
