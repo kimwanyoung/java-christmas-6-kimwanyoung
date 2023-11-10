@@ -47,6 +47,10 @@ public class OutputView {
 
     public static void displayTotalDiscounts(Map<EventName, Integer> discountStatistics) {
         System.out.println("<혜택 내역>");
+        if (discountStatistics.isEmpty()) {
+            System.out.println("없음");
+            return;
+        }
         for (Entry<EventName, Integer> discount : discountStatistics.entrySet()) {
             System.out.println(discount.getKey().getEventName() + " : " + discount.getValue());
         }

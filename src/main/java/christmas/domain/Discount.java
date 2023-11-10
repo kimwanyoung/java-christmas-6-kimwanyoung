@@ -1,6 +1,7 @@
 package christmas.domain;
 
 import static christmas.domain.EventName.CHRISTMAS_DISCOUNT;
+import static christmas.domain.EventName.GIFT_EVENT;
 import static christmas.domain.EventName.SPECIAL_DISCOUNT;
 import static christmas.domain.EventName.WEEKDAY_DISCOUNT;
 import static christmas.domain.EventName.WEEKEND_DISCOUNT;
@@ -30,6 +31,7 @@ public class Discount {
         addDiscountGreaterThanZero(discountStatistics, WEEKDAY_DISCOUNT, weekdayDiscount());
         addDiscountGreaterThanZero(discountStatistics, WEEKEND_DISCOUNT, weekendDiscount());
         addDiscountGreaterThanZero(discountStatistics, SPECIAL_DISCOUNT, specialDiscount());
+        addGiftIfConditionSatisfied(discountStatistics);
         return discountStatistics;
     }
 
@@ -70,6 +72,12 @@ public class Discount {
     ) {
         if (discountAmount < 0) {
             discountStatistics.put(name, discountAmount);
+        }
+    }
+
+    private void addGiftIfConditionSatisfied(Map<EventName, Integer> discountStatistics) {
+        if (orderedMenuDto.totalAmount() > 120000) {
+            discountStatistics.put(GIFT_EVENT, -25000);
         }
     }
 }
