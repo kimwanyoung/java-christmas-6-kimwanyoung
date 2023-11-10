@@ -15,5 +15,6 @@ public class ChristmasDiscountController {
         System.out.println("12월 3일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!");
         OrderedMenuDto orderedMenuDto = orderedMenu.toOrderedMenuDto();
         OutputView.displayOrderedMenu(orderedMenuDto);
+        OutputView.displayTotalOrderAmount(orderedMenuDto);
     }
 }

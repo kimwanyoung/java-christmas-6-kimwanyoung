@@ -2,6 +2,7 @@ package christmas.view;
 
 import christmas.domain.dto.OrderedMenuDto;
 import christmas.domain.menu.Foods;
+import java.text.DecimalFormat;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -24,5 +25,12 @@ public class OutputView {
             Integer count = menu.getValue();
             System.out.println(name + " " + count + "개");
         }
+    }
+
+    public static void displayTotalOrderAmount(OrderedMenuDto orderedMenuDto) {
+        DecimalFormat amountFormat = new DecimalFormat("###,###");
+        int totalAmount = orderedMenuDto.totalAmount();
+        System.out.println("<할인 전 총주문 금액>");
+        System.out.println(amountFormat.format(totalAmount));
     }
 }

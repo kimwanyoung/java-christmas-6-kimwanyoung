@@ -39,6 +39,10 @@ public enum Foods {
         return null;
     }
 
+    public static int calculateFoodsAmount(Foods foods, int amount) {
+        return foods.price * amount;
+    }
+
     public String getName() {
         return name;
     }
