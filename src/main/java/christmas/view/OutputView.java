@@ -1,11 +1,13 @@
 package christmas.view;
 
 import static christmas.constants.DiscountInfoConstants.DISCOUNT_DETAILS;
+import static christmas.constants.DiscountInfoConstants.FINAL_PAYMENT_AMOUNT;
 import static christmas.constants.DiscountInfoConstants.GIFT_MENU;
 import static christmas.constants.DiscountInfoConstants.ORDER_MENU;
 import static christmas.constants.DiscountInfoConstants.ORDER_TOTAL_AMOUNT;
 import static christmas.constants.DiscountInfoConstants.TOTAL_DISCOUNT_AMOUNT;
 import static christmas.domain.menu.Foods.CHAMPAGNE;
+import static christmas.domain.menu.Foods.calculateFoodsAmount;
 
 import christmas.domain.DiscountResult;
 import christmas.domain.EventName;
@@ -80,6 +82,20 @@ public class OutputView {
         System.out.println(TOTAL_DISCOUNT_AMOUNT);
         int totalDiscountAmount = discountResult.calculateTotalDiscountAmount();
         System.out.printf(WON, formattedAmount(totalDiscountAmount));
+    }
+
+    public static void displayFinalPayment(
+            OrderedMenuDto orderedMenuDto, DiscountResult discountResult
+    ) {
+        System.out.println(FINAL_PAYMENT_AMOUNT);
+        int totalAmount = orderedMenuDto.totalAmount();
+        int discountAmount = discountResult.calculateTotalDiscountAmount();
+        if (discountResult.getHasGift()) {
+            int finalPayment = totalAmount + discountAmount + calculateFoodsAmount(CHAMPAGNE, 1);
+            System.out.printf(WON, formattedAmount(finalPayment));
+            return;
+        }
+        System.out.printf(WON, formattedAmount(totalAmount - discountAmount));
     }
 
     private static String formattedAmount(int amount) {
