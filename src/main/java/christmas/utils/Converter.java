@@ -46,6 +46,9 @@ public class Converter {
         if (hasDuplicateMenu(menuResult, menuName)) {
             throw new IllegalArgumentException(INVALID_MENU_ORDER_ERROR_MESSAGE);
         }
+        if (hasOverThanTwenty(menuResult)) {
+            throw new IllegalArgumentException(INVALID_MENU_ORDER_ERROR_MESSAGE);
+        }
     }
 
     private static boolean hasDuplicateMenu(Map<Foods, Integer> menuResult, Foods menuName) {
@@ -54,6 +57,14 @@ public class Converter {
 
     private static List<String> splitByComma(String input) {
         return Arrays.asList(input.split(COMMA));
+    }
+
+    private static boolean hasOverThanTwenty(Map<Foods, Integer> menuResult) {
+        int count = 0;
+        for (int menuCount : menuResult.values()) {
+            count += menuCount;
+        }
+        return count > 20;
     }
 
     private static List<String> splitByDash(String menu) {
