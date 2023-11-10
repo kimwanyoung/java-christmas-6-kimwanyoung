@@ -20,9 +20,16 @@ public class Converter {
             List<String> menuAndAmount = splitByDash(menu);
             String menuName = menuAndAmount.get(0);
             Integer menuAmount = Integer.parseInt(menuAndAmount.get(1));
+            validateDuplicateMenu(menuResult, menuName);
             menuResult.put(menuName, menuAmount);
         }
         return menuResult;
+    }
+
+    private static void validateDuplicateMenu(Map<String, Integer> menuResult, String menuName) {
+        if (menuResult.containsKey(menuName)) {
+            throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
+        }
     }
 
     private static List<String> splitByComma(String input) {
