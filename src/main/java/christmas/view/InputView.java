@@ -40,7 +40,7 @@ public class InputView {
     }
 
     private static void validateMenuFormat(String input) {
-        if (!MENU_INPUT_FORMAT.matches(input)) {
+        if (!input.matches(MENU_INPUT_FORMAT)) {
             throw new IllegalArgumentException(INVALID_MENU_ORDER_ERROR_MESSAGE);
         }
     }

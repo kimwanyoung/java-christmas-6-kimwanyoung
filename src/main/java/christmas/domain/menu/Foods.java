@@ -38,4 +38,8 @@ public enum Foods {
         }
         return null;
     }
+
+    public String getName() {
+        return name;
+    }
 }
