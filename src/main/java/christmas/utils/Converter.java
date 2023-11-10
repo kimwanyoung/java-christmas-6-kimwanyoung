@@ -1,9 +1,13 @@
 package christmas.utils;
 
+import static christmas.constants.EventDayConstants.EVENT_MONTH;
+import static christmas.constants.EventDayConstants.EVENT_YEAR;
 import static christmas.constants.ExceptionMessage.INVALID_MENU_ORDER_ERROR_MESSAGE;
 import static christmas.domain.menu.Foods.convertStringToFoods;
 
 import christmas.domain.menu.Foods;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +19,11 @@ public class Converter {
     private static final String DASH = "-";
 
     private Converter() {
+    }
+
+    public static DayOfWeek convertToDayOfWeek(int visitDay) {
+        LocalDate localDate = LocalDate.of(EVENT_YEAR, EVENT_MONTH, visitDay);
+        return localDate.getDayOfWeek();
     }
 
     public static Map<Foods, Integer> convertToMenuResult(String input) {
