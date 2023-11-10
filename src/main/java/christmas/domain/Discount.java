@@ -24,7 +24,7 @@ public class Discount {
         this.orderedMenuDto = orderedMenuDto;
     }
 
-    public Map<EventName, Integer> toDiscountResultDto() {
+    public Map<EventName, Integer> calculateDiscountResult() {
         Map<EventName, Integer> discountStatistics = new HashMap<>();
         addDiscountGreaterThanZero(discountStatistics, CHRISTMAS_DISCOUNT, christmasDdayDiscount());
         addDiscountGreaterThanZero(discountStatistics, WEEKDAY_DISCOUNT, weekdayDiscount());

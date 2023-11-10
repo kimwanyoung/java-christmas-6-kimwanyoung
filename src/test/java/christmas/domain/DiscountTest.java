@@ -34,7 +34,7 @@ public class DiscountTest {
         final Discount discount = new Discount(new VisitDay(3), orderedMenu.toOrderedMenuDto());
 
         //when
-        Map<EventName, Integer> discountsStatistics = discount.toDiscountResultDto();
+        Map<EventName, Integer> discountsStatistics = discount.calculateDiscountResult();
 
         //then
         Assertions.assertThat(discountsStatistics.containsKey(CHRISTMAS_DISCOUNT)).isTrue();

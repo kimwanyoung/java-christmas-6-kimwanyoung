@@ -20,9 +20,10 @@ public class ChristmasDiscountController {
         OutputView.displayTotalOrderAmount(orderedMenuDto);
         boolean hasGift = orderedMenuDto.totalAmount() > 120000;
         Discount discount = new Discount(visitDay, orderedMenuDto);
-        DiscountResult discountResultDto = new DiscountResult(
-                discount.toDiscountResultDto(), hasGift);
-        OutputView.displayTotalDiscounts(discountResultDto);
-        OutputView.displayTodalDiscountAmount(discountResultDto);
+        DiscountResult discountResult = new DiscountResult(
+                discount.calculateDiscountResult(), hasGift);
+        OutputView.displayGift(discountResult);
+        OutputView.displayTotalDiscounts(discountResult);
+        OutputView.displayTotalDiscountAmount(discountResult);
     }
 }

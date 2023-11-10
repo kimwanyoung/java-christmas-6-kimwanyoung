@@ -1,5 +1,12 @@
 package christmas.view;
 
+import static christmas.constants.DiscountInfoConstants.DISCOUNT_DETAILS;
+import static christmas.constants.DiscountInfoConstants.GIFT_MENU;
+import static christmas.constants.DiscountInfoConstants.ORDER_MENU;
+import static christmas.constants.DiscountInfoConstants.ORDER_TOTAL_AMOUNT;
+import static christmas.constants.DiscountInfoConstants.TOTAL_DISCOUNT_AMOUNT;
+import static christmas.domain.menu.Foods.CHAMPAGNE;
+
 import christmas.domain.DiscountResult;
 import christmas.domain.EventName;
 import christmas.domain.dto.OrderedMenuDto;
@@ -11,6 +18,12 @@ import java.util.Map.Entry;
 public class OutputView {
 
     private static final String WELCOME_MESSAGE = "안녕하세요! 우테코 식당 12월 이벤트 플래너입니다.";
+    private static final String EVENT_PREVIEW_MESSAGE = "12월 3일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!";
+    private static final String WON = "%s원\n";
+    private static final String DISCOUNT_MESSAGE = "%s: ";
+    private static final String NOTHING = "없음";
+    private static final String MENU_INFO = "%s %d개\n";
+    private static final DecimalFormat AMOUNT_FORMAT = new DecimalFormat("###,###");
 
     private OutputView() {
     }
@@ -19,46 +32,57 @@ public class OutputView {
         System.out.println(WELCOME_MESSAGE);
     }
 
+    public static void displayEventPreviewMessage() {
+        System.out.println(EVENT_PREVIEW_MESSAGE);
+    }
+
     public static void displayOrderedMenu(OrderedMenuDto orderedMenuDto) {
-        System.out.println("<주문 메뉴>");
+        System.out.println(ORDER_MENU);
         Map<Foods, Integer> orderedMenu = orderedMenuDto.orderedMenu();
         for (Entry<Foods, Integer> menu : orderedMenu.entrySet()) {
             String name = menu.getKey().getName();
             Integer count = menu.getValue();
-            System.out.println(name + " " + count + "개");
+            System.out.printf(MENU_INFO, name, count);
         }
     }
 
     public static void displayTotalOrderAmount(OrderedMenuDto orderedMenuDto) {
-        DecimalFormat amountFormat = new DecimalFormat("###,###");
+
         int totalAmount = orderedMenuDto.totalAmount();
-        System.out.println("<할인 전 총주문 금액>");
-        System.out.println(amountFormat.format(totalAmount));
+        System.out.println(ORDER_TOTAL_AMOUNT);
+        System.out.println(formattedAmount(totalAmount));
     }
 
     public static void displayGift(DiscountResult discountResult) {
-        System.out.println("<증정 메뉴>");
+        System.out.println(GIFT_MENU);
         if (discountResult.getHasGift()) {
-            System.out.println("샴페인 1개");
+            System.out.printf(MENU_INFO, CHAMPAGNE.getName(), 1);
             return;
         }
-        System.out.println("없음");
+        System.out.println(NOTHING);
     }
 
     public static void displayTotalDiscounts(DiscountResult discountResult) {
         Map<EventName, Integer> discountStatistics = discountResult.getDiscountResult();
-        System.out.println("<혜택 내역>");
+        System.out.println(DISCOUNT_DETAILS);
         if (discountStatistics.isEmpty()) {
-            System.out.println("없음");
+            System.out.println(NOTHING);
             return;
         }
         for (Entry<EventName, Integer> discount : discountStatistics.entrySet()) {
-            System.out.println(discount.getKey().getEventName() + " : " + discount.getValue());
+            String eventName = discount.getKey().getEventName();
+            int discountAmount = discount.getValue();
+            System.out.printf(DISCOUNT_MESSAGE + WON, eventName, formattedAmount(discountAmount));
         }
     }
 
-    public static void displayTodalDiscountAmount(DiscountResult discountResult) {
-        System.out.println("<총혜택 금액>");
-        System.out.println(discountResult.calculateTotalDiscountAmount());
+    public static void displayTotalDiscountAmount(DiscountResult discountResult) {
+        System.out.println(TOTAL_DISCOUNT_AMOUNT);
+        int totalDiscountAmount = discountResult.calculateTotalDiscountAmount();
+        System.out.printf(WON, formattedAmount(totalDiscountAmount));
+    }
+
+    private static String formattedAmount(int amount) {
+        return AMOUNT_FORMAT.format(amount);
     }
 }
