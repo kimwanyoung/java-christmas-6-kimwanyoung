@@ -1,6 +1,6 @@
 package christmas.domain;
 
-import static christmas.view.InputView.INVALID_DAY_ERROR_MESSAGE;
+import static christmas.constants.ExceptionMessage.INVALID_DAY_ERROR_MESSAGE;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

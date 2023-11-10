@@ -1,7 +1,7 @@
 package christmas.utils;
 
+import static christmas.constants.ExceptionMessage.INVALID_MENU_ORDER_ERROR_MESSAGE;
 import static christmas.domain.menu.Foods.convertStringToFoods;
-import static christmas.view.InputView.INVALID_MENU_ORDER_ERROR_MESSAGE;
 
 import christmas.domain.menu.Foods;
 import java.util.Arrays;
