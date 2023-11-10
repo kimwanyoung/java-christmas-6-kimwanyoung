@@ -23,5 +23,6 @@ public class ChristmasDiscountController {
         DiscountResultDto discountResultDto = new DiscountResultDto(
                 discount.toDiscountResultDto(), hasGift);
         OutputView.displayTotalDiscounts(discountResultDto);
+        OutputView.displayTodalDiscountAmount(discountResultDto);
     }
 }

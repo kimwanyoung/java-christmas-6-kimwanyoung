@@ -56,4 +56,14 @@ public class OutputView {
             System.out.println(discount.getKey().getEventName() + " : " + discount.getValue());
         }
     }
+
+    public static void displayTodalDiscountAmount(DiscountResultDto discountResultDto) {
+        System.out.println("<총혜택 금액>");
+        Map<EventName, Integer> discountStatistics = discountResultDto.discountResult();
+        int totalAmount = 0;
+        for (int amount : discountStatistics.values()) {
+            totalAmount -= amount;
+        }
+        System.out.println(totalAmount);
+    }
 }
