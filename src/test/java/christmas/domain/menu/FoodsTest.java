@@ -20,11 +20,30 @@ public class FoodsTest {
         Assertions.assertThat(actual).isEqualTo(expected);
     }
 
+    @ParameterizedTest(name = "입력 메뉴 : {0}, 개수 : {1}")
+    @MethodSource("generateFoodsAndCount")
+    @DisplayName("음식의 개수를 받아 총 금액을 반환한다.")
+    void 문자열_메뉴_변환_테스트(Foods food, int amount, int expected) {
+        //when
+        int actual = Foods.calculateFoodsAmount(food, amount);
+
+        //then
+        Assertions.assertThat(actual).isEqualTo(expected);
+    }
+
     static Stream<Arguments> generateFoods() {
         return Stream.of(
                 Arguments.of("바비큐립", Foods.BARBECUE_RIB),
                 Arguments.of("티본스테이크", Foods.T_BONE_STEAK),
                 Arguments.of("타파스", Foods.TAPAS)
+        );
+    }
+
+    static Stream<Arguments> generateFoodsAndCount() {
+        return Stream.of(
+                Arguments.of(Foods.BARBECUE_RIB, 1, 54000),
+                Arguments.of(Foods.T_BONE_STEAK, 2, 110000),
+                Arguments.of(Foods.TAPAS, 2, 11000)
         );
     }
 }
