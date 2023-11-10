@@ -1,6 +1,6 @@
 package christmas.view;
 
-import christmas.domain.DiscountResultDto;
+import christmas.domain.DiscountResult;
 import christmas.domain.EventName;
 import christmas.domain.dto.OrderedMenuDto;
 import christmas.domain.menu.Foods;
@@ -36,17 +36,17 @@ public class OutputView {
         System.out.println(amountFormat.format(totalAmount));
     }
 
-    public static void displayGift(DiscountResultDto discountResultDto) {
+    public static void displayGift(DiscountResult discountResult) {
         System.out.println("<증정 메뉴>");
-        if (discountResultDto.hasGift()) {
+        if (discountResult.getHasGift()) {
             System.out.println("샴페인 1개");
             return;
         }
         System.out.println("없음");
     }
 
-    public static void displayTotalDiscounts(DiscountResultDto discountResultDto) {
-        Map<EventName, Integer> discountStatistics = discountResultDto.discountResult();
+    public static void displayTotalDiscounts(DiscountResult discountResult) {
+        Map<EventName, Integer> discountStatistics = discountResult.getDiscountResult();
         System.out.println("<혜택 내역>");
         if (discountStatistics.isEmpty()) {
             System.out.println("없음");
@@ -57,13 +57,8 @@ public class OutputView {
         }
     }
 
-    public static void displayTodalDiscountAmount(DiscountResultDto discountResultDto) {
+    public static void displayTodalDiscountAmount(DiscountResult discountResult) {
         System.out.println("<총혜택 금액>");
-        Map<EventName, Integer> discountStatistics = discountResultDto.discountResult();
-        int totalAmount = 0;
-        for (int amount : discountStatistics.values()) {
-            totalAmount += amount;
-        }
-        System.out.println(totalAmount);
+        System.out.println(discountResult.calculateTotalDiscountAmount());
     }
 }

@@ -1,7 +1,7 @@
 package christmas.controller;
 
 import christmas.domain.Discount;
-import christmas.domain.DiscountResultDto;
+import christmas.domain.DiscountResult;
 import christmas.domain.OrderedMenu;
 import christmas.domain.VisitDay;
 import christmas.domain.dto.OrderedMenuDto;
@@ -20,7 +20,7 @@ public class ChristmasDiscountController {
         OutputView.displayTotalOrderAmount(orderedMenuDto);
         boolean hasGift = orderedMenuDto.totalAmount() > 120000;
         Discount discount = new Discount(visitDay, orderedMenuDto);
-        DiscountResultDto discountResultDto = new DiscountResultDto(
+        DiscountResult discountResultDto = new DiscountResult(
                 discount.toDiscountResultDto(), hasGift);
         OutputView.displayTotalDiscounts(discountResultDto);
         OutputView.displayTodalDiscountAmount(discountResultDto);
