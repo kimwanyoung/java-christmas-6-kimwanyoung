@@ -1,6 +1,10 @@
 package christmas.controller;
 
+import static christmas.domain.EventName.CHRISTMAS_DISCOUNT;
 import static christmas.domain.EventName.GIFT_EVENT;
+import static christmas.domain.EventName.SPECIAL_DISCOUNT;
+import static christmas.domain.EventName.WEEKDAY_DISCOUNT;
+import static christmas.domain.EventName.WEEKEND_DISCOUNT;
 
 import christmas.domain.DiscountResult;
 import christmas.domain.EventName;
@@ -52,14 +56,12 @@ public class ChristmasDiscountController {
     }
 
     private void createDiscountStatus() {
-        DecemberDiscountEvents decemberDiscountEvents = new DecemberDiscountEvents(
-                visitDay,
-                new ChristmasDdayDiscount(EventName.CHRISTMAS_DISCOUNT),
-                new SpecialDayDiscount(EventName.SPECIAL_DISCOUNT),
-                new WeekdayDiscount(EventName.WEEKDAY_DISCOUNT, orderedMenuDto),
-                new WeekendDiscount(EventName.WEEKEND_DISCOUNT, orderedMenuDto),
-                new FreeGift(GIFT_EVENT, orderedMenuDto)
-        );
+        DecemberDiscountEvents decemberDiscountEvents = new DecemberDiscountEvents(visitDay,
+                new ChristmasDdayDiscount(CHRISTMAS_DISCOUNT),
+                new SpecialDayDiscount(SPECIAL_DISCOUNT),
+                new WeekdayDiscount(WEEKDAY_DISCOUNT, orderedMenuDto),
+                new WeekendDiscount(WEEKEND_DISCOUNT, orderedMenuDto),
+                new FreeGift(GIFT_EVENT, orderedMenuDto));
         Map<EventName, Integer> appliedEvents = decemberDiscountEvents.calculateDiscountResult();
         discountResult = new DiscountResult(appliedEvents, appliedEvents.containsKey(GIFT_EVENT));
     }
