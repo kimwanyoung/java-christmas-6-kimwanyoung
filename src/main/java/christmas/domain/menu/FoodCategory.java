@@ -13,6 +13,7 @@ import static christmas.domain.menu.Foods.TAPAS;
 import static christmas.domain.menu.Foods.T_BONE_STEAK;
 import static christmas.domain.menu.Foods.ZERO_COKE;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -40,5 +41,26 @@ public enum FoodCategory {
             }
         }
         return count;
+    }
+
+    public static List<FoodCategory> getCurrentFoodCategory(Map<Foods, Integer> orderMenu) {
+        List<FoodCategory> foodCategories = new ArrayList<>();
+        for (FoodCategory category : FoodCategory.values()) {
+            FoodCategory orderCategory = getCategoryContainFood(category, orderMenu);
+            if (orderCategory != null) {
+                foodCategories.add(orderCategory);
+            }
+        }
+        return foodCategories;
+    }
+
+    private static FoodCategory getCategoryContainFood(FoodCategory category,
+                                                       Map<Foods, Integer> orderMenu) {
+        for (Foods food : orderMenu.keySet()) {
+            if (category.foods.contains(food)) {
+                return category;
+            }
+        }
+        return null;
     }
 }
