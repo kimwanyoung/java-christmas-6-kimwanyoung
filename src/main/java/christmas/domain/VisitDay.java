@@ -1,19 +1,11 @@
 package christmas.domain;
 
-import static christmas.constants.EventDayConstants.CHRISTMAS_DAY;
 import static christmas.constants.EventDayConstants.EVENT_END_DAY;
 import static christmas.constants.EventDayConstants.EVENT_START_DAY;
-import static christmas.constants.EventDayConstants.SPECIAL_DAYS;
 import static christmas.constants.ExceptionMessage.INVALID_DAY_ERROR_MESSAGE;
 import static christmas.utils.Converter.convertToDayOfWeek;
-import static java.time.DayOfWeek.FRIDAY;
-import static java.time.DayOfWeek.MONDAY;
-import static java.time.DayOfWeek.SATURDAY;
-import static java.time.DayOfWeek.SUNDAY;
-import static java.time.DayOfWeek.THURSDAY;
-import static java.time.DayOfWeek.TUESDAY;
-import static java.time.DayOfWeek.WEDNESDAY;
 
+import java.time.DayOfWeek;
 import java.util.List;
 
 public class VisitDay {
@@ -29,21 +21,20 @@ public class VisitDay {
         return visitDay;
     }
 
-    public boolean isChristmasDay() {
-        return EVENT_START_DAY <= visitDay && visitDay <= CHRISTMAS_DAY;
+    public boolean isChristmasDay(int eventStartDay, int christmasDay) {
+        return eventStartDay <= visitDay && visitDay <= christmasDay;
     }
 
-    public boolean isSpecialDay() {
-        return SPECIAL_DAYS.contains(visitDay);
+    public boolean isSpecialDay(List<Integer> specialDays) {
+        return specialDays.contains(visitDay);
     }
 
-    public boolean isWeekday() {
-        return List.of(SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY)
-                .contains(convertToDayOfWeek(visitDay));
+    public boolean isWeekday(List<DayOfWeek> weekday) {
+        return weekday.contains(convertToDayOfWeek(visitDay));
     }
 
-    public boolean isWeekend() {
-        return List.of(FRIDAY, SATURDAY).contains(convertToDayOfWeek(visitDay));
+    public boolean isWeekend(List<DayOfWeek> weekend) {
+        return weekend.contains(convertToDayOfWeek(visitDay));
     }
 
     private void validate(int visitDay) {

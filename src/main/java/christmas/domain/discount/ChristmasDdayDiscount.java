@@ -2,11 +2,14 @@ package christmas.domain.discount;
 
 import static christmas.constants.DiscountAmountConstant.BASE_DISCOUNT_AMOUNT;
 import static christmas.constants.DiscountAmountConstant.CHRISTMAS_INCREASE_AMOUNT;
+import static christmas.constants.EventDayConstants.EVENT_START_DAY;
 
 import christmas.domain.EventName;
 import christmas.domain.VisitDay;
 
 public class ChristmasDdayDiscount extends DiscountPolicy {
+
+    private static final int CHRISTMAS_DAY = 25;
 
     public ChristmasDdayDiscount(EventName eventName) {
         super(eventName);
@@ -19,6 +22,6 @@ public class ChristmasDdayDiscount extends DiscountPolicy {
 
     @Override
     public boolean isDiscountDay(VisitDay visitDay) {
-        return visitDay.isChristmasDay();
+        return visitDay.isChristmasDay(EVENT_START_DAY, CHRISTMAS_DAY);
     }
 }
