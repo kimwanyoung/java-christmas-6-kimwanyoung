@@ -49,7 +49,8 @@ public class DecemberDiscountEventsTest {
                 new FreeGift(GIFT_EVENT, orderedMenu.calculateTotalAmount()));
 
         //when
-        DiscountResultDto discountResultDto = decemberDiscountEvents.toDiscountResultDto();
+        DiscountResultDto discountResultDto = decemberDiscountEvents.toDiscountResultDto(
+                orderedMenu.calculateTotalAmount());
         Map<EventName, Integer> discountsStatistics = discountResultDto.discountResult();
 
         //then

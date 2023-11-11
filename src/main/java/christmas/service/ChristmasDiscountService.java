@@ -28,7 +28,7 @@ public class ChristmasDiscountService {
 
     public DiscountResultDto calculateDiscount(OrderedMenu orderedMenu) {
         DecemberDiscountEvents discountEvents = createDecemberEvents(visitDay, orderedMenu);
-        return discountEvents.toDiscountResultDto();
+        return discountEvents.toDiscountResultDto(orderedMenu.calculateTotalAmount());
     }
 
     private VisitDay createValidVisitDay() {

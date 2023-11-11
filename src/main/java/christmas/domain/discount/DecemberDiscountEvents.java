@@ -1,5 +1,7 @@
 package christmas.domain.discount;
 
+import static christmas.constants.DiscountAmountConstant.MIN_AMOUNT_FOR_DISCOUNT;
+
 import christmas.domain.EventName;
 import christmas.domain.VisitDay;
 import christmas.domain.dto.DiscountResultDto;
@@ -17,7 +19,7 @@ public class DecemberDiscountEvents {
         this.visitDay = visitDay;
     }
 
-    public DiscountResultDto toDiscountResultDto() {
+    public DiscountResultDto toDiscountResultDto(int totalOrderAmount) {
         Map<EventName, Integer> discountStatistics = new HashMap<>();
         for (DiscountPolicy discountPolicy : discounts) {
             if (discountPolicy.isDiscountDay(visitDay)) {
@@ -25,6 +27,9 @@ public class DecemberDiscountEvents {
             }
         }
         int totalDiscountAmount = calculateTotalDiscountAmount(discountStatistics);
+        if (totalOrderAmount < MIN_AMOUNT_FOR_DISCOUNT) {
+            return new DiscountResultDto(new HashMap<>(), 0);
+        }
         return new DiscountResultDto(discountStatistics, totalDiscountAmount);
     }
 

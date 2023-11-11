@@ -7,4 +7,5 @@ public class DiscountAmountConstant {
     public static final int DISCOUNT_PER_MENU_AMOUNT = -2023;
     public static final int FREE_GIFT_AMOUNT = -25000;
     public static final int MIN_AMOUNT_FOR_GIFT = 120000;
+    public static final int MIN_AMOUNT_FOR_DISCOUNT = 10000;
 }
