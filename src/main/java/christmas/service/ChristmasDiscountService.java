@@ -15,38 +15,12 @@ import christmas.domain.discount.SpecialDayDiscount;
 import christmas.domain.discount.WeekdayDiscount;
 import christmas.domain.discount.WeekendDiscount;
 import christmas.domain.dto.DiscountResultDto;
-import christmas.view.InputView;
 
 public class ChristmasDiscountService {
-
-    private VisitDay visitDay;
-
-    public OrderedMenu orderMenu() {
-        visitDay = createValidVisitDay();
-        return createValidOrderMenu();
-    }
-
-    public DiscountResultDto calculateDiscount(OrderedMenu orderedMenu) {
+    
+    public DiscountResultDto calculateDiscount(VisitDay visitDay, OrderedMenu orderedMenu) {
         DecemberDiscountEvents discountEvents = createDecemberEvents(visitDay, orderedMenu);
         return discountEvents.toDiscountResultDto(orderedMenu.calculateTotalAmount());
-    }
-
-    private VisitDay createValidVisitDay() {
-        try {
-            return new VisitDay(InputView.getVisitDayFromInput());
-        } catch (IllegalArgumentException exception) {
-            System.out.println(exception.getMessage());
-            return createValidVisitDay();
-        }
-    }
-
-    private OrderedMenu createValidOrderMenu() {
-        try {
-            return new OrderedMenu(InputView.getMenuAndCountFromInput());
-        } catch (IllegalArgumentException exception) {
-            System.out.println(exception.getMessage());
-            return createValidOrderMenu();
-        }
     }
 
     private DecemberDiscountEvents createDecemberEvents(VisitDay visitDay,

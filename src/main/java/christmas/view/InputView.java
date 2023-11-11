@@ -5,7 +5,6 @@ import static christmas.constants.ExceptionMessage.INVALID_MENU_ORDER_ERROR_MESS
 import static christmas.utils.InputValidator.validateEmptyInput;
 import static christmas.utils.InputValidator.validateMenuFormat;
 
-import camp.nextstep.edu.missionutils.Console;
 import christmas.domain.menu.Foods;
 import christmas.utils.Converter;
 import java.util.Map;
@@ -15,14 +14,18 @@ public class InputView {
     private static final String VISIT_DAY_INPUT_MESSAGE = "12월 중 식당 예상 방문 날짜는 언제인가요? (숫자만 입력해 주세요!)";
     private static final String ORDER_MENU_INPUT_MESSAGE = "주문하실 메뉴를 메뉴와 개수를 알려 주세요. (e.g. 해산물파스타-2,레드와인-1,초코케이크-1)";
     private static final String MENU_INPUT_FORMAT = "^[가-힣]+-[1-9]\\d*((,[가-힣]+-[1-9]\\d*)+)?$";
+    private final Reader reader;
+    private final Printer printer;
 
-    private InputView() {
+    public InputView(Reader reader, Printer printer) {
+        this.reader = reader;
+        this.printer = printer;
     }
 
-    public static int getVisitDayFromInput() {
+    public int getVisitDayFromInput() {
         try {
-            System.out.println(VISIT_DAY_INPUT_MESSAGE);
-            String visitDay = read();
+            printer.println(VISIT_DAY_INPUT_MESSAGE);
+            String visitDay = reader.read();
             validateEmptyInput(visitDay, INVALID_DAY_ERROR_MESSAGE);
             return Integer.parseInt(visitDay);
         } catch (NumberFormatException exception) {
@@ -30,19 +33,15 @@ public class InputView {
         }
     }
 
-    public static Map<Foods, Integer> getMenuAndCountFromInput() {
+    public Map<Foods, Integer> getMenuAndCountFromInput() {
         try {
-            System.out.println(ORDER_MENU_INPUT_MESSAGE);
-            String orderMenu = read();
+            printer.println(ORDER_MENU_INPUT_MESSAGE);
+            String orderMenu = reader.read();
             validateEmptyInput(orderMenu, INVALID_MENU_ORDER_ERROR_MESSAGE);
             validateMenuFormat(orderMenu, MENU_INPUT_FORMAT);
             return Converter.convertToMenuResult(orderMenu);
         } catch (NumberFormatException exception) {
             throw new IllegalArgumentException(INVALID_MENU_ORDER_ERROR_MESSAGE);
         }
-    }
-
-    private static String read() {
-        return Console.readLine().trim();
     }
 }

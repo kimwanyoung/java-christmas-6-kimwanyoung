@@ -9,6 +9,6 @@ public class DefaultPrinter implements Printer {
 
     @Override
     public void printf(String message, Object... args) {
-        System.out.printf(message);
+        System.out.printf(message, args);
     }
 }
