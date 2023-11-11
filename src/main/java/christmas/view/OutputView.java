@@ -7,12 +7,15 @@ import static christmas.constants.DiscountInfoConstants.GIFT_MENU;
 import static christmas.constants.DiscountInfoConstants.ORDER_MENU;
 import static christmas.constants.DiscountInfoConstants.ORDER_TOTAL_AMOUNT;
 import static christmas.constants.DiscountInfoConstants.TOTAL_DISCOUNT_AMOUNT;
+import static christmas.domain.EventName.GIFT_EVENT;
 import static christmas.domain.menu.Foods.CHAMPAGNE;
 import static christmas.domain.menu.Foods.calculateFoodsAmount;
+import static christmas.utils.Calculator.calculateTotalAmount;
+import static christmas.utils.Calculator.calculateTotalDiscountAmount;
 
 import christmas.domain.Badge;
-import christmas.domain.DiscountResult;
 import christmas.domain.EventName;
+import christmas.domain.dto.DiscountResultDto;
 import christmas.domain.dto.OrderedMenuDto;
 import christmas.domain.menu.Foods;
 import java.text.DecimalFormat;
@@ -51,22 +54,23 @@ public class OutputView {
     }
 
     public static void displayTotalOrderAmount(OrderedMenuDto orderedMenuDto) {
-        int totalAmount = orderedMenuDto.totalAmount();
+        int totalAmount = calculateTotalAmount(orderedMenuDto.orderedMenu());
         System.out.println(ORDER_TOTAL_AMOUNT);
         System.out.println(formattedAmount(totalAmount));
     }
 
-    public static void displayGift(DiscountResult discountResult) {
+    public static void displayGift(DiscountResultDto discountResultDto) {
         System.out.println(GIFT_MENU);
-        if (discountResult.getHasGift()) {
+        Map<EventName, Integer> discountResults = discountResultDto.discountResult();
+        if (discountResults.containsKey(GIFT_EVENT)) {
             System.out.printf(MENU_INFO, CHAMPAGNE.getName(), 1);
             return;
         }
         System.out.println(NOTHING);
     }
 
-    public static void displayTotalDiscounts(DiscountResult discountResult) {
-        Map<EventName, Integer> discountStatistics = discountResult.getDiscountResult();
+    public static void displayTotalDiscounts(DiscountResultDto discountResultDto) {
+        Map<EventName, Integer> discountStatistics = discountResultDto.discountResult();
         System.out.println(DISCOUNT_DETAILS);
         if (discountStatistics.isEmpty()) {
             System.out.println(NOTHING);
@@ -79,35 +83,38 @@ public class OutputView {
         }
     }
 
-    public static void displayTotalDiscountAmount(DiscountResult discountResult) {
+    public static void displayTotalDiscountAmount(DiscountResultDto discountResultDto) {
         System.out.println(TOTAL_DISCOUNT_AMOUNT);
-        int totalDiscountAmount = discountResult.calculateTotalDiscountAmount();
-        System.out.printf(WON, formattedAmount(totalDiscountAmount));
+        Map<EventName, Integer> discountStatistics = discountResultDto.discountResult();
+        int discountAmount = calculateTotalDiscountAmount(discountStatistics);
+        System.out.printf(WON, formattedAmount(discountAmount));
     }
 
     public static void displayFinalPayment(
-            OrderedMenuDto orderedMenuDto, DiscountResult discountResult
+            OrderedMenuDto orderedMenuDto, DiscountResultDto discountResultDto
     ) {
         System.out.println(FINAL_PAYMENT_AMOUNT);
-        int totalAmount = orderedMenuDto.totalAmount();
-        int discountAmount = discountResult.calculateTotalDiscountAmount();
-        if (discountResult.getHasGift()) {
+        Map<EventName, Integer> discountStatistics = discountResultDto.discountResult();
+        int totalAmount = calculateTotalAmount(orderedMenuDto.orderedMenu());
+        int discountAmount = calculateTotalDiscountAmount(discountStatistics);
+        if (discountStatistics.containsKey(GIFT_EVENT)) {
             int finalPayment = totalAmount + discountAmount + calculateFoodsAmount(CHAMPAGNE, 1);
             System.out.printf(WON, formattedAmount(finalPayment));
             return;
         }
-        System.out.printf(WON, formattedAmount(totalAmount - discountAmount));
+        System.out.printf(WON, formattedAmount(totalAmount + discountAmount));
     }
 
-    public static void displayBadge(DiscountResult discountResult) {
+    public static void displayBadge(DiscountResultDto discountResultDto) {
         System.out.println(EVENT_BADGE);
-        int totalDiscountAmount = discountResult.calculateTotalDiscountAmount();
-        String badge = Badge.calculateBadge(totalDiscountAmount);
+        Map<EventName, Integer> discountStatistics = discountResultDto.discountResult();
+        int discountAmount = calculateTotalDiscountAmount(discountStatistics);
+        String badge = Badge.calculateBadge(discountAmount);
         if (badge == null) {
             System.out.println(NOTHING);
             return;
         }
-        System.out.println(Badge.calculateBadge(totalDiscountAmount));
+        System.out.println(Badge.calculateBadge(discountAmount));
     }
 
     private static String formattedAmount(int amount) {

@@ -6,7 +6,6 @@ import static christmas.domain.EventName.SPECIAL_DISCOUNT;
 import static christmas.domain.EventName.WEEKDAY_DISCOUNT;
 import static christmas.domain.EventName.WEEKEND_DISCOUNT;
 
-import christmas.domain.DiscountResult;
 import christmas.domain.EventName;
 import christmas.domain.OrderedMenu;
 import christmas.domain.VisitDay;
@@ -16,6 +15,7 @@ import christmas.domain.discount.FreeGift;
 import christmas.domain.discount.SpecialDayDiscount;
 import christmas.domain.discount.WeekdayDiscount;
 import christmas.domain.discount.WeekendDiscount;
+import christmas.domain.dto.DiscountResultDto;
 import christmas.domain.dto.OrderedMenuDto;
 import christmas.view.InputView;
 import christmas.view.OutputView;
@@ -25,7 +25,7 @@ public class ChristmasDiscountController {
 
     private VisitDay visitDay;
     private OrderedMenuDto orderedMenuDto;
-    private DiscountResult discountResult;
+    private DiscountResultDto discountResultDto;
 
     public void run() {
         OutputView.displayWelcomeMessage();
@@ -42,17 +42,17 @@ public class ChristmasDiscountController {
     }
 
     private void displayDiscountInformation() {
-        OutputView.displayGift(discountResult);
-        OutputView.displayTotalDiscounts(discountResult);
-        OutputView.displayTotalDiscountAmount(discountResult);
-        OutputView.displayFinalPayment(orderedMenuDto, discountResult);
-        OutputView.displayBadge(discountResult);
+        OutputView.displayGift(discountResultDto);
+        OutputView.displayTotalDiscounts(discountResultDto);
+        OutputView.displayTotalDiscountAmount(discountResultDto);
+        OutputView.displayFinalPayment(orderedMenuDto, discountResultDto);
+        OutputView.displayBadge(discountResultDto);
     }
 
     private void createOrderStatus() {
         visitDay = createValidVisitDay();
         OrderedMenu orderedMenu = createValidOrderMenu();
-        orderedMenuDto = orderedMenu.toOrderedMenuDto();
+        orderedMenuDto = new OrderedMenuDto(orderedMenu.getOrderedMenu());
     }
 
     private void createDiscountStatus() {
@@ -63,7 +63,7 @@ public class ChristmasDiscountController {
                 new WeekendDiscount(WEEKEND_DISCOUNT, orderedMenuDto),
                 new FreeGift(GIFT_EVENT, orderedMenuDto));
         Map<EventName, Integer> appliedEvents = decemberDiscountEvents.calculateDiscountResult();
-        discountResult = new DiscountResult(appliedEvents, appliedEvents.containsKey(GIFT_EVENT));
+        discountResultDto = new DiscountResultDto(appliedEvents);
     }
 
     private VisitDay createValidVisitDay() {
