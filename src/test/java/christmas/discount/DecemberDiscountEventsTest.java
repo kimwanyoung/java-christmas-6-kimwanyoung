@@ -5,11 +5,11 @@ import static christmas.domain.EventName.GIFT_EVENT;
 import static christmas.domain.EventName.SPECIAL_DISCOUNT;
 import static christmas.domain.EventName.WEEKDAY_DISCOUNT;
 
-import christmas.domain.Discount;
 import christmas.domain.EventName;
 import christmas.domain.OrderedMenu;
 import christmas.domain.VisitDay;
 import christmas.domain.discount.ChristmasDdayDiscount;
+import christmas.domain.discount.DecemberDiscountEvents;
 import christmas.domain.discount.FreeGift;
 import christmas.domain.discount.SpecialDayDiscount;
 import christmas.domain.discount.WeekdayDiscount;
@@ -22,7 +22,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class DiscountTest {
+public class DecemberDiscountEventsTest {
 
     private static OrderedMenu orderedMenu;
 
@@ -40,7 +40,7 @@ public class DiscountTest {
     @DisplayName("날짜에 적용되는 할인 테스트")
     void 적용되는_할인_테스트() {
         //when
-        Discount discount = new Discount(
+        DecemberDiscountEvents decemberDiscountEvents = new DecemberDiscountEvents(
                 new ChristmasDdayDiscount(new VisitDay(3), EventName.CHRISTMAS_DISCOUNT),
                 new SpecialDayDiscount(new VisitDay(3), EventName.SPECIAL_DISCOUNT),
                 new WeekdayDiscount(new VisitDay(3), EventName.WEEKDAY_DISCOUNT,
@@ -51,7 +51,7 @@ public class DiscountTest {
         );
 
         //when
-        Map<EventName, Integer> discountsStatistics = discount.calculateDiscountResult();
+        Map<EventName, Integer> discountsStatistics = decemberDiscountEvents.calculateDiscountResult();
 
         //then
         Assertions.assertThat(discountsStatistics.containsKey(CHRISTMAS_DISCOUNT)).isTrue();

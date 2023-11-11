@@ -2,12 +2,12 @@ package christmas.controller;
 
 import static christmas.domain.EventName.GIFT_EVENT;
 
-import christmas.domain.Discount;
 import christmas.domain.DiscountResult;
 import christmas.domain.EventName;
 import christmas.domain.OrderedMenu;
 import christmas.domain.VisitDay;
 import christmas.domain.discount.ChristmasDdayDiscount;
+import christmas.domain.discount.DecemberDiscountEvents;
 import christmas.domain.discount.FreeGift;
 import christmas.domain.discount.SpecialDayDiscount;
 import christmas.domain.discount.WeekdayDiscount;
@@ -53,14 +53,15 @@ public class ChristmasDiscountController {
 
     private void createDiscountStatus() {
         boolean hasGift = orderedMenuDto.totalAmount() > 120000;
-        Discount discount = new Discount(
+        DecemberDiscountEvents decemberDiscountEvents = new DecemberDiscountEvents(
                 new ChristmasDdayDiscount(visitDay, EventName.CHRISTMAS_DISCOUNT),
                 new SpecialDayDiscount(visitDay, EventName.SPECIAL_DISCOUNT),
                 new WeekdayDiscount(visitDay, EventName.WEEKDAY_DISCOUNT, orderedMenuDto),
                 new WeekendDiscount(visitDay, EventName.WEEKEND_DISCOUNT, orderedMenuDto),
                 new FreeGift(GIFT_EVENT, orderedMenu.toOrderedMenuDto())
         );
-        discountResult = new DiscountResult(discount.calculateDiscountResult(), hasGift);
+        discountResult = new DiscountResult(decemberDiscountEvents.calculateDiscountResult(),
+                hasGift);
     }
 
     private VisitDay createValidVisitDay() {

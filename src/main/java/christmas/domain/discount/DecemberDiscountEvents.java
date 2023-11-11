@@ -1,15 +1,15 @@
-package christmas.domain;
+package christmas.domain.discount;
 
-import christmas.domain.discount.DiscountPolicy;
+import christmas.domain.EventName;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Discount {
+public class DecemberDiscountEvents {
 
     private final List<DiscountPolicy> discounts;
 
-    public Discount(DiscountPolicy... discounts) {
+    public DecemberDiscountEvents(DiscountPolicy... discounts) {
         this.discounts = List.of(discounts);
     }
 
