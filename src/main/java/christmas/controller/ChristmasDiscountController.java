@@ -15,6 +15,7 @@ import christmas.domain.discount.WeekendDiscount;
 import christmas.domain.dto.OrderedMenuDto;
 import christmas.view.InputView;
 import christmas.view.OutputView;
+import java.util.Map;
 
 public class ChristmasDiscountController {
 
@@ -52,7 +53,6 @@ public class ChristmasDiscountController {
     }
 
     private void createDiscountStatus() {
-        boolean hasGift = orderedMenuDto.totalAmount() > 120000;
         DecemberDiscountEvents decemberDiscountEvents = new DecemberDiscountEvents(
                 new ChristmasDdayDiscount(visitDay, EventName.CHRISTMAS_DISCOUNT),
                 new SpecialDayDiscount(visitDay, EventName.SPECIAL_DISCOUNT),
@@ -60,8 +60,8 @@ public class ChristmasDiscountController {
                 new WeekendDiscount(visitDay, EventName.WEEKEND_DISCOUNT, orderedMenuDto),
                 new FreeGift(GIFT_EVENT, orderedMenu.toOrderedMenuDto())
         );
-        discountResult = new DiscountResult(decemberDiscountEvents.calculateDiscountResult(),
-                hasGift);
+        Map<EventName, Integer> appliedEvents = decemberDiscountEvents.calculateDiscountResult();
+        discountResult = new DiscountResult(appliedEvents, appliedEvents.containsKey(GIFT_EVENT));
     }
 
     private VisitDay createValidVisitDay() {
