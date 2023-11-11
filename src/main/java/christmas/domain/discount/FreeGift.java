@@ -1,5 +1,8 @@
 package christmas.domain.discount;
 
+import static christmas.constants.DiscountAmountConstant.FREE_GIFT_AMOUNT;
+import static christmas.constants.DiscountAmountConstant.MIN_AMOUNT_FOR_GIFT;
+
 import christmas.domain.EventName;
 import christmas.domain.dto.OrderedMenuDto;
 
@@ -14,11 +17,11 @@ public class FreeGift extends DiscountPolicy {
 
     @Override
     public int calculateDiscountAmount() {
-        return -25000;
+        return FREE_GIFT_AMOUNT;
     }
 
     @Override
     public boolean isDiscountDay() {
-        return orderedMenuDto.totalAmount() >= 120000;
+        return orderedMenuDto.totalAmount() >= MIN_AMOUNT_FOR_GIFT;
     }
 }

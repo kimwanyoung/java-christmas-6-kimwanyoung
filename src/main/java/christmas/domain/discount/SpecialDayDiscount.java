@@ -1,5 +1,7 @@
 package christmas.domain.discount;
 
+import static christmas.constants.DiscountAmountConstant.BASE_DISCOUNT_AMOUNT;
+
 import christmas.domain.EventName;
 import christmas.domain.VisitDay;
 
@@ -14,7 +16,7 @@ public class SpecialDayDiscount extends DiscountPolicy {
 
     @Override
     public int calculateDiscountAmount() {
-        return -1000;
+        return BASE_DISCOUNT_AMOUNT;
     }
 
     @Override

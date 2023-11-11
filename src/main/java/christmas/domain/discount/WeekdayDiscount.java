@@ -1,5 +1,6 @@
 package christmas.domain.discount;
 
+import static christmas.constants.DiscountAmountConstant.DISCOUNT_PER_MENU_AMOUNT;
 import static christmas.domain.menu.FoodCategory.DESSERT;
 import static christmas.domain.menu.FoodCategory.calculateFoodCountInCategory;
 
@@ -24,7 +25,7 @@ public class WeekdayDiscount extends DiscountPolicy {
     public int calculateDiscountAmount() {
         Map<Foods, Integer> orderedFood = orderedMenuDto.orderedMenu();
         int dessertCount = calculateFoodCountInCategory(DESSERT, orderedFood);
-        return dessertCount * -2023;
+        return dessertCount * DISCOUNT_PER_MENU_AMOUNT;
     }
 
     @Override

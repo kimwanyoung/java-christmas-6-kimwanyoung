@@ -25,16 +25,6 @@ import org.junit.jupiter.api.Test;
 public class DiscountTest {
 
     private static OrderedMenu orderedMenu;
-    private static Discount discount = new Discount(
-            new ChristmasDdayDiscount(new VisitDay(3), EventName.CHRISTMAS_DISCOUNT),
-            new SpecialDayDiscount(new VisitDay(3), EventName.SPECIAL_DISCOUNT),
-            new WeekdayDiscount(new VisitDay(3), EventName.WEEKDAY_DISCOUNT,
-                    orderedMenu.toOrderedMenuDto()),
-            new WeekendDiscount(new VisitDay(3), EventName.WEEKEND_DISCOUNT,
-                    orderedMenu.toOrderedMenuDto()),
-            new FreeGift(GIFT_EVENT, orderedMenu.toOrderedMenuDto())
-    );
-    ;
 
     @BeforeAll
     static void setUp() {
@@ -49,6 +39,17 @@ public class DiscountTest {
     @Test
     @DisplayName("날짜에 적용되는 할인 테스트")
     void 적용되는_할인_테스트() {
+        //when
+        Discount discount = new Discount(
+                new ChristmasDdayDiscount(new VisitDay(3), EventName.CHRISTMAS_DISCOUNT),
+                new SpecialDayDiscount(new VisitDay(3), EventName.SPECIAL_DISCOUNT),
+                new WeekdayDiscount(new VisitDay(3), EventName.WEEKDAY_DISCOUNT,
+                        orderedMenu.toOrderedMenuDto()),
+                new WeekendDiscount(new VisitDay(3), EventName.WEEKEND_DISCOUNT,
+                        orderedMenu.toOrderedMenuDto()),
+                new FreeGift(GIFT_EVENT, orderedMenu.toOrderedMenuDto())
+        );
+
         //when
         Map<EventName, Integer> discountsStatistics = discount.calculateDiscountResult();
 
