@@ -14,7 +14,7 @@ import christmas.domain.discount.FreeGift;
 import christmas.domain.discount.SpecialDayDiscount;
 import christmas.domain.discount.WeekdayDiscount;
 import christmas.domain.discount.WeekendDiscount;
-import christmas.domain.dto.OrderedMenuDto;
+import christmas.domain.dto.DiscountResultDto;
 import christmas.domain.menu.Foods;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +26,6 @@ import org.junit.jupiter.api.Test;
 public class DecemberDiscountEventsTest {
 
     private static OrderedMenu orderedMenu;
-    private static OrderedMenuDto orderedMenuDto;
 
     @BeforeAll
     static void setUp() {
@@ -36,7 +35,6 @@ public class DecemberDiscountEventsTest {
         menus.put(Foods.T_BONE_STEAK, 1);
         menus.put(Foods.CHOCOLATE_CAKE, 1);
         orderedMenu = new OrderedMenu(menus);
-        orderedMenuDto = new OrderedMenuDto(orderedMenu.toOrderMenuDto());
     }
 
     @Test
@@ -46,12 +44,13 @@ public class DecemberDiscountEventsTest {
         DecemberDiscountEvents decemberDiscountEvents = new DecemberDiscountEvents(new VisitDay(3),
                 new ChristmasDdayDiscount(EventName.CHRISTMAS_DISCOUNT),
                 new SpecialDayDiscount(EventName.SPECIAL_DISCOUNT),
-                new WeekdayDiscount(EventName.WEEKDAY_DISCOUNT, orderedMenuDto),
-                new WeekendDiscount(EventName.WEEKEND_DISCOUNT, orderedMenuDto),
-                new FreeGift(GIFT_EVENT, orderedMenuDto));
+                new WeekdayDiscount(EventName.WEEKDAY_DISCOUNT, orderedMenu.toOrderMenuDto()),
+                new WeekendDiscount(EventName.WEEKEND_DISCOUNT, orderedMenu.toOrderMenuDto()),
+                new FreeGift(GIFT_EVENT, orderedMenu.toOrderMenuDto()));
 
         //when
-        Map<EventName, Integer> discountsStatistics = decemberDiscountEvents.calculateDiscountResult();
+        DiscountResultDto discountResultDto = decemberDiscountEvents.toDiscountResultDto();
+        Map<EventName, Integer> discountsStatistics = discountResultDto.discountResult();
 
         //then
         Assertions.assertThat(discountsStatistics.containsKey(CHRISTMAS_DISCOUNT)).isTrue();

@@ -6,7 +6,6 @@ import static christmas.domain.EventName.SPECIAL_DISCOUNT;
 import static christmas.domain.EventName.WEEKDAY_DISCOUNT;
 import static christmas.domain.EventName.WEEKEND_DISCOUNT;
 
-import christmas.domain.EventName;
 import christmas.domain.OrderedMenu;
 import christmas.domain.VisitDay;
 import christmas.domain.discount.ChristmasDdayDiscount;
@@ -18,7 +17,6 @@ import christmas.domain.discount.WeekendDiscount;
 import christmas.domain.dto.DiscountResultDto;
 import christmas.domain.dto.OrderedMenuDto;
 import christmas.view.InputView;
-import java.util.Map;
 
 public class ChristmasDiscountService {
 
@@ -31,9 +29,8 @@ public class ChristmasDiscountService {
     }
 
     public DiscountResultDto calculateDiscount(OrderedMenuDto orderedMenuDto) {
-        DecemberDiscountEvents events = createDecemberEvents(visitDay, orderedMenuDto);
-        Map<EventName, Integer> appliedEvents = events.calculateDiscountResult();
-        return new DiscountResultDto(appliedEvents);
+        DecemberDiscountEvents discountEvents = createDecemberEvents(visitDay, orderedMenuDto);
+        return discountEvents.toDiscountResultDto();
     }
 
     private VisitDay createValidVisitDay() {
