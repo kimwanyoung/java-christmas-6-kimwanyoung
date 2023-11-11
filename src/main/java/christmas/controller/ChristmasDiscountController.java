@@ -3,7 +3,6 @@ package christmas.controller;
 import christmas.domain.OrderedMenu;
 import christmas.domain.VisitDay;
 import christmas.domain.dto.DiscountResultDto;
-import christmas.domain.dto.OrderedMenuDto;
 import christmas.service.ChristmasDiscountService;
 import christmas.view.InputView;
 import christmas.view.OutputView;
@@ -28,15 +27,14 @@ public class ChristmasDiscountController {
         outputView.displayWelcomeMessage();
         VisitDay visitDay = createValidVisitDay();
         OrderedMenu orderedMenu = createValidOrderMenu();
-        OrderedMenuDto orderedMenuDto = orderedMenu.toOrderMenuDto();
         outputView.displayEventPreviewMessage();
 
-        showOrderSummary(orderedMenuDto);
+        showOrderSummary(orderedMenu);
 
         DiscountResultDto discountDto = christmasDiscountService
                 .calculateDiscount(visitDay, orderedMenu);
 
-        showDiscountSummary(orderedMenuDto, discountDto);
+        showDiscountSummary(orderedMenu, discountDto);
     }
 
     private VisitDay createValidVisitDay() {
@@ -57,17 +55,16 @@ public class ChristmasDiscountController {
         }
     }
 
-    private void showOrderSummary(OrderedMenuDto orderedMenuDto) {
-        outputView.displayOrderedMenu(orderedMenuDto);
-        outputView.displayTotalOrderAmount(orderedMenuDto);
+    private void showOrderSummary(OrderedMenu orderedMenu) {
+        outputView.displayOrderedMenu(orderedMenu);
+        outputView.displayTotalOrderAmount(orderedMenu);
     }
 
-    private void showDiscountSummary(OrderedMenuDto orderedMenuDto,
-                                     DiscountResultDto discountResultDto) {
+    private void showDiscountSummary(OrderedMenu orderedMenu, DiscountResultDto discountResultDto) {
         outputView.displayGift(discountResultDto);
         outputView.displayTotalDiscounts(discountResultDto);
         outputView.displayTotalDiscountAmount(discountResultDto);
-        outputView.displayFinalPayment(orderedMenuDto, discountResultDto);
+        outputView.displayFinalPayment(orderedMenu, discountResultDto);
         outputView.displayBadge(discountResultDto);
     }
 }

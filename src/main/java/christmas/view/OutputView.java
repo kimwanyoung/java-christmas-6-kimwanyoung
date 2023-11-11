@@ -13,8 +13,8 @@ import static christmas.domain.menu.Foods.calculateFoodsAmount;
 
 import christmas.domain.Badge;
 import christmas.domain.EventName;
+import christmas.domain.OrderedMenu;
 import christmas.domain.dto.DiscountResultDto;
-import christmas.domain.dto.OrderedMenuDto;
 import christmas.domain.menu.Foods;
 import java.text.DecimalFormat;
 import java.util.Map;
@@ -44,14 +44,14 @@ public class OutputView {
         printer.println(EVENT_PREVIEW_MESSAGE);
     }
 
-    public void displayOrderedMenu(OrderedMenuDto orderedMenuDto) {
+    public void displayOrderedMenu(OrderedMenu orderedMenu) {
         printer.println(ORDER_MENU);
-        printMenuItems(orderedMenuDto.orderedMenu());
+        printMenuItems(orderedMenu.getOrderedMenu());
     }
 
-    public void displayTotalOrderAmount(OrderedMenuDto orderedMenuDto) {
+    public void displayTotalOrderAmount(OrderedMenu orderedMenu) {
         printer.println(ORDER_TOTAL_AMOUNT);
-        printer.println(formattedAmount(orderedMenuDto.totalAmount()));
+        printer.println(formattedAmount(orderedMenu.calculateTotalAmount()));
     }
 
     public void displayGift(DiscountResultDto discountResultDto) {
@@ -72,11 +72,12 @@ public class OutputView {
     }
 
     public void displayFinalPayment(
-            OrderedMenuDto orderedMenuDto, DiscountResultDto discountResultDto
+            OrderedMenu orderedMenu, DiscountResultDto discountResultDto
     ) {
         printer.println(FINAL_PAYMENT_AMOUNT);
         Map<EventName, Integer> discountResult = discountResultDto.discountResult();
-        int finalPayment = orderedMenuDto.totalAmount() + discountResultDto.totalDiscountAmount();
+        int finalPayment =
+                orderedMenu.calculateTotalAmount() + discountResultDto.totalDiscountAmount();
         printPayment(discountResult, finalPayment);
     }
 

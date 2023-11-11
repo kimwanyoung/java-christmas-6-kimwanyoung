@@ -4,7 +4,6 @@ import static christmas.constants.ExceptionMessage.INVALID_MENU_ORDER_ERROR_MESS
 import static christmas.domain.menu.FoodCategory.BEVERAGE;
 import static christmas.domain.menu.FoodCategory.getCurrentFoodCategory;
 
-import christmas.domain.dto.OrderedMenuDto;
 import christmas.domain.menu.FoodCategory;
 import christmas.domain.menu.Foods;
 import java.util.Collections;
@@ -21,11 +20,6 @@ public class OrderedMenu {
         validateOverTwenty(orderedMenu);
         validateOnlyBeverage(orderedMenu);
         this.orderedMenu = orderedMenu;
-    }
-
-    public OrderedMenuDto toOrderMenuDto() {
-        int totalAmount = calculateTotalAmount();
-        return new OrderedMenuDto(Collections.unmodifiableMap(orderedMenu), totalAmount);
     }
 
     public Map<Foods, Integer> getOrderedMenu() {
