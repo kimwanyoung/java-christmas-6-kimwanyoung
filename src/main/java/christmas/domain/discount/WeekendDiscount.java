@@ -8,7 +8,6 @@ import static java.time.DayOfWeek.SATURDAY;
 
 import christmas.domain.EventName;
 import christmas.domain.VisitDay;
-import christmas.domain.dto.OrderedMenuDto;
 import christmas.domain.menu.Foods;
 import java.time.DayOfWeek;
 import java.util.List;
@@ -17,17 +16,16 @@ import java.util.Map;
 public class WeekendDiscount extends DiscountPolicy {
 
     private static final List<DayOfWeek> WEEKEND = List.of(FRIDAY, SATURDAY);
-    private final OrderedMenuDto orderedMenuDto;
+    private final Map<Foods, Integer> orderedMenu;
 
-    public WeekendDiscount(EventName eventName, OrderedMenuDto orderedMenuDto) {
+    public WeekendDiscount(EventName eventName, Map<Foods, Integer> orderedMenu) {
         super(eventName);
-        this.orderedMenuDto = orderedMenuDto;
+        this.orderedMenu = orderedMenu;
     }
 
     @Override
     public int calculateDiscountAmount(VisitDay visitDay) {
-        Map<Foods, Integer> orderedFood = orderedMenuDto.orderedMenu();
-        int mainCourseCount = calculateFoodCountInCategory(MAIN_COURSE, orderedFood);
+        int mainCourseCount = calculateFoodCountInCategory(MAIN_COURSE, orderedMenu);
         return mainCourseCount * DISCOUNT_PER_MENU_AMOUNT;
     }
 

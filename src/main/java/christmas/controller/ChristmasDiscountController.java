@@ -1,5 +1,6 @@
 package christmas.controller;
 
+import christmas.domain.OrderedMenu;
 import christmas.domain.dto.DiscountResultDto;
 import christmas.domain.dto.OrderedMenuDto;
 import christmas.service.ChristmasDiscountService;
@@ -15,11 +16,14 @@ public class ChristmasDiscountController {
 
     public void run() {
         OutputView.displayWelcomeMessage();
-        OrderedMenuDto orderedMenuDto = christmasDiscountService.orderMenu();
+        OrderedMenu orderedMenu = christmasDiscountService.orderMenu();
+        OrderedMenuDto orderedMenuDto = orderedMenu.toOrderMenuDto();
         OutputView.displayEventPreviewMessage();
+
         showOrderSummary(orderedMenuDto);
 
-        DiscountResultDto discountDto = christmasDiscountService.calculateDiscount(orderedMenuDto);
+        DiscountResultDto discountDto = christmasDiscountService.calculateDiscount(orderedMenu);
+
         showDiscountSummary(orderedMenuDto, discountDto);
     }
 

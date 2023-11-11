@@ -44,9 +44,9 @@ public class DecemberDiscountEventsTest {
         DecemberDiscountEvents decemberDiscountEvents = new DecemberDiscountEvents(new VisitDay(3),
                 new ChristmasDdayDiscount(EventName.CHRISTMAS_DISCOUNT),
                 new SpecialDayDiscount(EventName.SPECIAL_DISCOUNT),
-                new WeekdayDiscount(EventName.WEEKDAY_DISCOUNT, orderedMenu.toOrderMenuDto()),
-                new WeekendDiscount(EventName.WEEKEND_DISCOUNT, orderedMenu.toOrderMenuDto()),
-                new FreeGift(GIFT_EVENT, orderedMenu.toOrderMenuDto()));
+                new WeekdayDiscount(EventName.WEEKDAY_DISCOUNT, orderedMenu.getOrderedMenu()),
+                new WeekendDiscount(EventName.WEEKEND_DISCOUNT, orderedMenu.getOrderedMenu()),
+                new FreeGift(GIFT_EVENT, orderedMenu.calculateTotalAmount()));
 
         //when
         DiscountResultDto discountResultDto = decemberDiscountEvents.toDiscountResultDto();

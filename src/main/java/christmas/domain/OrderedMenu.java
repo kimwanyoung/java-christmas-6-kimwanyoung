@@ -26,7 +26,11 @@ public class OrderedMenu {
         return new OrderedMenuDto(Collections.unmodifiableMap(orderedMenu), totalAmount);
     }
 
-    private int calculateTotalAmount() {
+    public Map<Foods, Integer> getOrderedMenu() {
+        return Collections.unmodifiableMap(orderedMenu);
+    }
+
+    public int calculateTotalAmount() {
         int totalAmount = 0;
         for (Entry<Foods, Integer> food : orderedMenu.entrySet()) {
             totalAmount += Foods.calculateFoodsAmount(food.getKey(), food.getValue());

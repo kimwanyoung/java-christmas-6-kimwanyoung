@@ -5,15 +5,14 @@ import static christmas.constants.DiscountAmountConstant.MIN_AMOUNT_FOR_GIFT;
 
 import christmas.domain.EventName;
 import christmas.domain.VisitDay;
-import christmas.domain.dto.OrderedMenuDto;
 
 public class FreeGift extends DiscountPolicy {
 
-    private final OrderedMenuDto orderedMenuDto;
+    private final int totalAmount;
 
-    public FreeGift(EventName eventName, OrderedMenuDto orderedMenuDto) {
+    public FreeGift(EventName eventName, int totalAmount) {
         super(eventName);
-        this.orderedMenuDto = orderedMenuDto;
+        this.totalAmount = totalAmount;
     }
 
     @Override
@@ -23,6 +22,6 @@ public class FreeGift extends DiscountPolicy {
 
     @Override
     public boolean isDiscountDay(VisitDay visitDay) {
-        return orderedMenuDto.totalAmount() >= MIN_AMOUNT_FOR_GIFT;
+        return totalAmount >= MIN_AMOUNT_FOR_GIFT;
     }
 }

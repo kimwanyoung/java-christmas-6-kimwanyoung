@@ -15,21 +15,19 @@ import christmas.domain.discount.SpecialDayDiscount;
 import christmas.domain.discount.WeekdayDiscount;
 import christmas.domain.discount.WeekendDiscount;
 import christmas.domain.dto.DiscountResultDto;
-import christmas.domain.dto.OrderedMenuDto;
 import christmas.view.InputView;
 
 public class ChristmasDiscountService {
 
     private VisitDay visitDay;
 
-    public OrderedMenuDto orderMenu() {
+    public OrderedMenu orderMenu() {
         visitDay = createValidVisitDay();
-        OrderedMenu orderedMenu = createValidOrderMenu();
-        return orderedMenu.toOrderMenuDto();
+        return createValidOrderMenu();
     }
 
-    public DiscountResultDto calculateDiscount(OrderedMenuDto orderedMenuDto) {
-        DecemberDiscountEvents discountEvents = createDecemberEvents(visitDay, orderedMenuDto);
+    public DiscountResultDto calculateDiscount(OrderedMenu orderedMenu) {
+        DecemberDiscountEvents discountEvents = createDecemberEvents(visitDay, orderedMenu);
         return discountEvents.toDiscountResultDto();
     }
 
@@ -52,12 +50,12 @@ public class ChristmasDiscountService {
     }
 
     private DecemberDiscountEvents createDecemberEvents(VisitDay visitDay,
-                                                        OrderedMenuDto orderedMenuDto) {
+                                                        OrderedMenu orderedMenu) {
         return new DecemberDiscountEvents(visitDay,
                 new ChristmasDdayDiscount(CHRISTMAS_DISCOUNT),
                 new SpecialDayDiscount(SPECIAL_DISCOUNT),
-                new WeekdayDiscount(WEEKDAY_DISCOUNT, orderedMenuDto),
-                new WeekendDiscount(WEEKEND_DISCOUNT, orderedMenuDto),
-                new FreeGift(GIFT_EVENT, orderedMenuDto));
+                new WeekdayDiscount(WEEKDAY_DISCOUNT, orderedMenu.getOrderedMenu()),
+                new WeekendDiscount(WEEKEND_DISCOUNT, orderedMenu.getOrderedMenu()),
+                new FreeGift(GIFT_EVENT, orderedMenu.calculateTotalAmount()));
     }
 }
