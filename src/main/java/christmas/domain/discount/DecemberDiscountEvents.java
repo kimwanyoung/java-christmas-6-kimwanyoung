@@ -21,16 +21,21 @@ public class DecemberDiscountEvents {
 
     public DiscountResultDto toDiscountResultDto(int totalOrderAmount) {
         Map<EventName, Integer> discountStatistics = new HashMap<>();
-        for (DiscountPolicy discountPolicy : discounts) {
-            if (discountPolicy.isDiscountDay(visitDay)) {
-                addDiscountGreaterThanZero(discountStatistics, discountPolicy);
-            }
-        }
+        addDiscountPolicySatisfiedCondition(discountStatistics);
         int totalDiscountAmount = calculateTotalDiscountAmount(discountStatistics);
+        
         if (totalOrderAmount < MIN_AMOUNT_FOR_DISCOUNT) {
             return new DiscountResultDto(new HashMap<>(), 0);
         }
         return new DiscountResultDto(discountStatistics, totalDiscountAmount);
+    }
+
+    private void addDiscountPolicySatisfiedCondition(Map<EventName, Integer> discountStatistics) {
+        for (DiscountPolicy discountPolicy : discounts) {
+            if (discountPolicy.isDiscountDay(visitDay)) {
+                addDiscountMoreThanZero(discountStatistics, discountPolicy);
+            }
+        }
     }
 
     private int calculateTotalDiscountAmount(Map<EventName, Integer> discountStatistics) {
@@ -41,7 +46,7 @@ public class DecemberDiscountEvents {
         return totalDiscountAmount;
     }
 
-    private void addDiscountGreaterThanZero(
+    private void addDiscountMoreThanZero(
             Map<EventName, Integer> discountStatistics, DiscountPolicy discountPolicy
     ) {
         int discountAmount = discountPolicy.calculateDiscountAmount(visitDay);
