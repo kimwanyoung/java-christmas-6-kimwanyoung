@@ -41,11 +41,12 @@ public class DecemberDiscountEventsTest {
     void 적용되는_할인_테스트() {
         //when
         DecemberDiscountEvents decemberDiscountEvents = new DecemberDiscountEvents(
-                new ChristmasDdayDiscount(new VisitDay(3), EventName.CHRISTMAS_DISCOUNT),
-                new SpecialDayDiscount(new VisitDay(3), EventName.SPECIAL_DISCOUNT),
-                new WeekdayDiscount(new VisitDay(3), EventName.WEEKDAY_DISCOUNT,
+                new VisitDay(3),
+                new ChristmasDdayDiscount(EventName.CHRISTMAS_DISCOUNT),
+                new SpecialDayDiscount(EventName.SPECIAL_DISCOUNT),
+                new WeekdayDiscount(EventName.WEEKDAY_DISCOUNT,
                         orderedMenu.toOrderedMenuDto()),
-                new WeekendDiscount(new VisitDay(3), EventName.WEEKEND_DISCOUNT,
+                new WeekendDiscount(EventName.WEEKEND_DISCOUNT,
                         orderedMenu.toOrderedMenuDto()),
                 new FreeGift(GIFT_EVENT, orderedMenu.toOrderedMenuDto())
         );

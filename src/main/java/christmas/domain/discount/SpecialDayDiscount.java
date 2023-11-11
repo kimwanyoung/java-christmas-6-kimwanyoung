@@ -7,20 +7,17 @@ import christmas.domain.VisitDay;
 
 public class SpecialDayDiscount extends DiscountPolicy {
 
-    private final VisitDay visitDay;
-
-    public SpecialDayDiscount(VisitDay visitDay, EventName eventName) {
+    public SpecialDayDiscount(EventName eventName) {
         super(eventName);
-        this.visitDay = visitDay;
     }
 
     @Override
-    public int calculateDiscountAmount() {
+    public int calculateDiscountAmount(VisitDay visitDay) {
         return BASE_DISCOUNT_AMOUNT;
     }
 
     @Override
-    public boolean isDiscountDay() {
+    public boolean isDiscountDay(VisitDay visitDay) {
         return visitDay.isSpecialDay();
     }
 }

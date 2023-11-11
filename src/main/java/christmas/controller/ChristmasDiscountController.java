@@ -20,7 +20,6 @@ import java.util.Map;
 public class ChristmasDiscountController {
 
     private VisitDay visitDay;
-    private OrderedMenu orderedMenu;
     private OrderedMenuDto orderedMenuDto;
     private DiscountResult discountResult;
 
@@ -48,17 +47,18 @@ public class ChristmasDiscountController {
 
     private void createOrderStatus() {
         visitDay = createValidVisitDay();
-        orderedMenu = createValidOrderMenu();
+        OrderedMenu orderedMenu = createValidOrderMenu();
         orderedMenuDto = orderedMenu.toOrderedMenuDto();
     }
 
     private void createDiscountStatus() {
         DecemberDiscountEvents decemberDiscountEvents = new DecemberDiscountEvents(
-                new ChristmasDdayDiscount(visitDay, EventName.CHRISTMAS_DISCOUNT),
-                new SpecialDayDiscount(visitDay, EventName.SPECIAL_DISCOUNT),
-                new WeekdayDiscount(visitDay, EventName.WEEKDAY_DISCOUNT, orderedMenuDto),
-                new WeekendDiscount(visitDay, EventName.WEEKEND_DISCOUNT, orderedMenuDto),
-                new FreeGift(GIFT_EVENT, orderedMenu.toOrderedMenuDto())
+                visitDay,
+                new ChristmasDdayDiscount(EventName.CHRISTMAS_DISCOUNT),
+                new SpecialDayDiscount(EventName.SPECIAL_DISCOUNT),
+                new WeekdayDiscount(EventName.WEEKDAY_DISCOUNT, orderedMenuDto),
+                new WeekendDiscount(EventName.WEEKEND_DISCOUNT, orderedMenuDto),
+                new FreeGift(GIFT_EVENT, orderedMenuDto)
         );
         Map<EventName, Integer> appliedEvents = decemberDiscountEvents.calculateDiscountResult();
         discountResult = new DiscountResult(appliedEvents, appliedEvents.containsKey(GIFT_EVENT));

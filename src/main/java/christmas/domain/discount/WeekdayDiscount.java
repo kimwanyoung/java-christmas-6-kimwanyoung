@@ -11,25 +11,22 @@ import christmas.domain.menu.Foods;
 import java.util.Map;
 
 public class WeekdayDiscount extends DiscountPolicy {
-
-    private final VisitDay visitDay;
     private final OrderedMenuDto orderedMenuDto;
 
-    public WeekdayDiscount(VisitDay visitDay, EventName eventName, OrderedMenuDto orderedMenuDto) {
+    public WeekdayDiscount(EventName eventName, OrderedMenuDto orderedMenuDto) {
         super(eventName);
-        this.visitDay = visitDay;
         this.orderedMenuDto = orderedMenuDto;
     }
 
     @Override
-    public int calculateDiscountAmount() {
+    public int calculateDiscountAmount(VisitDay visitDay) {
         Map<Foods, Integer> orderedFood = orderedMenuDto.orderedMenu();
         int dessertCount = calculateFoodCountInCategory(DESSERT, orderedFood);
         return dessertCount * DISCOUNT_PER_MENU_AMOUNT;
     }
 
     @Override
-    public boolean isDiscountDay() {
+    public boolean isDiscountDay(VisitDay visitDay) {
         return visitDay.isWeekday();
     }
 }
