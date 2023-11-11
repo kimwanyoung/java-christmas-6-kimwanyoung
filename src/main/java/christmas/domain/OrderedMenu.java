@@ -17,6 +17,7 @@ public class OrderedMenu {
     private final Map<Foods, Integer> orderedMenu;
 
     public OrderedMenu(Map<Foods, Integer> orderedMenu) {
+        validateOverTwenty(orderedMenu);
         validateOnlyBeverage(orderedMenu);
         this.orderedMenu = orderedMenu;
     }
@@ -36,6 +37,16 @@ public class OrderedMenu {
             totalAmount += Foods.calculateFoodsAmount(food.getKey(), food.getValue());
         }
         return totalAmount;
+    }
+
+    private static void validateOverTwenty(Map<Foods, Integer> menuResult) {
+        int count = 0;
+        for (int menuCount : menuResult.values()) {
+            count += menuCount;
+        }
+        if (count > 20) {
+            throw new IllegalArgumentException(INVALID_MENU_ORDER_ERROR_MESSAGE);
+        }
     }
 
     private void validateOnlyBeverage(Map<Foods, Integer> orderedMenu) {

@@ -36,7 +36,6 @@ public class Converter {
             validateMenu(menuResult, menuName);
             menuResult.put(menuName, menuAmount);
         }
-        validateOverTwenty(menuResult);
         return menuResult;
     }
 
@@ -55,16 +54,6 @@ public class Converter {
 
     private static List<String> splitByComma(String input) {
         return Arrays.asList(input.split(COMMA));
-    }
-
-    private static void validateOverTwenty(Map<Foods, Integer> menuResult) {
-        int count = 0;
-        for (int menuCount : menuResult.values()) {
-            count += menuCount;
-        }
-        if (count > 20) {
-            throw new IllegalArgumentException(INVALID_MENU_ORDER_ERROR_MESSAGE);
-        }
     }
 
     private static List<String> splitByDash(String menu) {

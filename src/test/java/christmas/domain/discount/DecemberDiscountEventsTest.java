@@ -1,4 +1,4 @@
-package christmas.discount;
+package christmas.domain.discount;
 
 import static christmas.domain.menu.Foods.BARBECUE_RIB;
 import static christmas.domain.menu.Foods.CAESAR_SALAD;
@@ -9,12 +9,6 @@ import static christmas.domain.menu.Foods.ZERO_COKE;
 import christmas.domain.EventName;
 import christmas.domain.OrderedMenu;
 import christmas.domain.VisitDay;
-import christmas.domain.discount.ChristmasDdayDiscount;
-import christmas.domain.discount.DecemberDiscountEvents;
-import christmas.domain.discount.FreeGift;
-import christmas.domain.discount.SpecialDayDiscount;
-import christmas.domain.discount.WeekdayDiscount;
-import christmas.domain.discount.WeekendDiscount;
 import christmas.domain.dto.DiscountResultDto;
 import christmas.domain.menu.Foods;
 import java.util.HashMap;
