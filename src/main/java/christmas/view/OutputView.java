@@ -43,12 +43,7 @@ public class OutputView {
 
     public static void displayOrderedMenu(OrderedMenuDto orderedMenuDto) {
         System.out.println(ORDER_MENU);
-        Map<Foods, Integer> orderedMenu = orderedMenuDto.orderedMenu();
-        for (Entry<Foods, Integer> menu : orderedMenu.entrySet()) {
-            String name = menu.getKey().getName();
-            Integer count = menu.getValue();
-            System.out.printf(MENU_INFO, name, count);
-        }
+        printMenuItems(orderedMenuDto.orderedMenu());
     }
 
     public static void displayTotalOrderAmount(OrderedMenuDto orderedMenuDto) {
@@ -58,26 +53,13 @@ public class OutputView {
 
     public static void displayGift(DiscountResultDto discountResultDto) {
         System.out.println(GIFT_MENU);
-        Map<EventName, Integer> discountResults = discountResultDto.discountResult();
-        if (discountResults.containsKey(GIFT_EVENT)) {
-            System.out.printf(MENU_INFO, CHAMPAGNE.getName(), 1);
-            return;
-        }
-        System.out.println(NOTHING);
+        printGift(discountResultDto.discountResult());
     }
 
     public static void displayTotalDiscounts(DiscountResultDto discountResultDto) {
         Map<EventName, Integer> discountStatistics = discountResultDto.discountResult();
         System.out.println(DISCOUNT_DETAILS);
-        if (discountStatistics.isEmpty()) {
-            System.out.println(NOTHING);
-            return;
-        }
-        for (Entry<EventName, Integer> discount : discountStatistics.entrySet()) {
-            String eventName = discount.getKey().getEventName();
-            int discountAmount = discount.getValue();
-            System.out.printf(DISCOUNT_MESSAGE + WON, eventName, formattedAmount(discountAmount));
-        }
+        printDiscountStatistics(discountStatistics);
     }
 
     public static void displayTotalDiscountAmount(DiscountResultDto discountResultDto) {
@@ -91,10 +73,50 @@ public class OutputView {
     ) {
         System.out.println(FINAL_PAYMENT_AMOUNT);
         Map<EventName, Integer> discountResult = discountResultDto.discountResult();
-        int totalAmount = orderedMenuDto.totalAmount();
+        int finalPayment = orderedMenuDto.totalAmount() + discountResultDto.totalDiscountAmount();
+        printPayment(discountResult, finalPayment);
+    }
+
+    public static void displayBadge(DiscountResultDto discountResultDto) {
+        System.out.println(EVENT_BADGE);
         int discountAmount = discountResultDto.totalDiscountAmount();
-        int finalPayment = totalAmount + discountAmount;
-        
+        String badge = Badge.calculateBadge(discountAmount);
+        printBadge(badge);
+    }
+
+    private static void printMenuItems(Map<Foods, Integer> orderedMenu) {
+        for (Entry<Foods, Integer> menu : orderedMenu.entrySet()) {
+            String name = menu.getKey().getName();
+            Integer count = menu.getValue();
+            System.out.printf(MENU_INFO, name, count);
+        }
+    }
+
+    private static void printGift(Map<EventName, Integer> discountResults) {
+        if (discountResults.containsKey(GIFT_EVENT)) {
+            System.out.printf(MENU_INFO, CHAMPAGNE.getName(), 1);
+            return;
+        }
+        System.out.println(NOTHING);
+    }
+
+    private static void printDiscountStatistics(Map<EventName, Integer> discountStatistics) {
+        if (discountStatistics.isEmpty()) {
+            System.out.println(NOTHING);
+            return;
+        }
+        for (Entry<EventName, Integer> discount : discountStatistics.entrySet()) {
+            printDiscounts(discount);
+        }
+    }
+
+    private static void printDiscounts(Entry<EventName, Integer> discount) {
+        String eventName = discount.getKey().getEventName();
+        int discountAmount = discount.getValue();
+        System.out.printf(DISCOUNT_MESSAGE + WON, eventName, formattedAmount(discountAmount));
+    }
+
+    private static void printPayment(Map<EventName, Integer> discountResult, int finalPayment) {
         if (discountResult.containsKey(GIFT_EVENT)) {
             int giftPrice = calculateFoodsAmount(CHAMPAGNE, 1);
             System.out.printf(WON, formattedAmount(finalPayment + giftPrice));
@@ -104,18 +126,13 @@ public class OutputView {
         System.out.printf(WON, formattedAmount(finalPayment));
     }
 
-    public static void displayBadge(DiscountResultDto discountResultDto) {
-        System.out.println(EVENT_BADGE);
-
-        int discountAmount = discountResultDto.totalDiscountAmount();
-        String badge = Badge.calculateBadge(discountAmount);
-
+    private static void printBadge(String badge) {
         if (badge == null) {
             System.out.println(NOTHING);
             return;
         }
 
-        System.out.println(Badge.calculateBadge(discountAmount));
+        System.out.println(badge);
     }
 
     private static String formattedAmount(int amount) {
