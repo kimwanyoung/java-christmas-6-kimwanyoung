@@ -8,17 +8,19 @@ import christmas.view.OutputView;
 
 public class ChristmasDiscountController {
 
+    private final OutputView outputView;
     private final ChristmasDiscountService christmasDiscountService;
 
-    public ChristmasDiscountController(ChristmasDiscountService service) {
+    public ChristmasDiscountController(OutputView outputView, ChristmasDiscountService service) {
+        this.outputView = outputView;
         this.christmasDiscountService = service;
     }
 
     public void run() {
-        OutputView.displayWelcomeMessage();
+        outputView.displayWelcomeMessage();
         OrderedMenu orderedMenu = christmasDiscountService.orderMenu();
         OrderedMenuDto orderedMenuDto = orderedMenu.toOrderMenuDto();
-        OutputView.displayEventPreviewMessage();
+        outputView.displayEventPreviewMessage();
 
         showOrderSummary(orderedMenuDto);
 
@@ -28,16 +30,16 @@ public class ChristmasDiscountController {
     }
 
     private void showOrderSummary(OrderedMenuDto orderedMenuDto) {
-        OutputView.displayOrderedMenu(orderedMenuDto);
-        OutputView.displayTotalOrderAmount(orderedMenuDto);
+        outputView.displayOrderedMenu(orderedMenuDto);
+        outputView.displayTotalOrderAmount(orderedMenuDto);
     }
 
     private void showDiscountSummary(OrderedMenuDto orderedMenuDto,
                                      DiscountResultDto discountResultDto) {
-        OutputView.displayGift(discountResultDto);
-        OutputView.displayTotalDiscounts(discountResultDto);
-        OutputView.displayTotalDiscountAmount(discountResultDto);
-        OutputView.displayFinalPayment(orderedMenuDto, discountResultDto);
-        OutputView.displayBadge(discountResultDto);
+        outputView.displayGift(discountResultDto);
+        outputView.displayTotalDiscounts(discountResultDto);
+        outputView.displayTotalDiscountAmount(discountResultDto);
+        outputView.displayFinalPayment(orderedMenuDto, discountResultDto);
+        outputView.displayBadge(discountResultDto);
     }
 }
