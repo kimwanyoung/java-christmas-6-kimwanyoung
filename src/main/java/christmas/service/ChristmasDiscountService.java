@@ -27,7 +27,7 @@ public class ChristmasDiscountService {
     public OrderedMenuDto orderMenu() {
         visitDay = createValidVisitDay();
         OrderedMenu orderedMenu = createValidOrderMenu();
-        return new OrderedMenuDto(orderedMenu.getOrderedMenu());
+        return orderedMenu.toOrderMenuDto();
     }
 
     public DiscountResultDto calculateDiscount(OrderedMenuDto orderedMenuDto) {

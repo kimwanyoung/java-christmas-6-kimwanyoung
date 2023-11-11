@@ -10,7 +10,6 @@ import static christmas.constants.DiscountInfoConstants.TOTAL_DISCOUNT_AMOUNT;
 import static christmas.domain.EventName.GIFT_EVENT;
 import static christmas.domain.menu.Foods.CHAMPAGNE;
 import static christmas.domain.menu.Foods.calculateFoodsAmount;
-import static christmas.utils.Calculator.calculateTotalAmount;
 import static christmas.utils.Calculator.calculateTotalDiscountAmount;
 
 import christmas.domain.Badge;
@@ -54,9 +53,8 @@ public class OutputView {
     }
 
     public static void displayTotalOrderAmount(OrderedMenuDto orderedMenuDto) {
-        int totalAmount = calculateTotalAmount(orderedMenuDto.orderedMenu());
         System.out.println(ORDER_TOTAL_AMOUNT);
-        System.out.println(formattedAmount(totalAmount));
+        System.out.println(formattedAmount(orderedMenuDto.totalAmount()));
     }
 
     public static void displayGift(DiscountResultDto discountResultDto) {
@@ -95,7 +93,7 @@ public class OutputView {
     ) {
         System.out.println(FINAL_PAYMENT_AMOUNT);
         Map<EventName, Integer> discountStatistics = discountResultDto.discountResult();
-        int totalAmount = calculateTotalAmount(orderedMenuDto.orderedMenu());
+        int totalAmount = orderedMenuDto.totalAmount();
         int discountAmount = calculateTotalDiscountAmount(discountStatistics);
         if (discountStatistics.containsKey(GIFT_EVENT)) {
             int finalPayment = totalAmount + discountAmount + calculateFoodsAmount(CHAMPAGNE, 1);

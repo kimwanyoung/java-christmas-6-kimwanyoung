@@ -36,7 +36,7 @@ public class DecemberDiscountEventsTest {
         menus.put(Foods.T_BONE_STEAK, 1);
         menus.put(Foods.CHOCOLATE_CAKE, 1);
         orderedMenu = new OrderedMenu(menus);
-        orderedMenuDto = new OrderedMenuDto(orderedMenu.getOrderedMenu());
+        orderedMenuDto = new OrderedMenuDto(orderedMenu.toOrderMenuDto());
     }
 
     @Test
