@@ -22,13 +22,13 @@ import java.util.Map.Entry;
 
 public class OutputView {
 
-    private final String WELCOME_MESSAGE = "안녕하세요! 우테코 식당 12월 이벤트 플래너입니다.";
-    private final String EVENT_PREVIEW_MESSAGE = "12월 3일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!";
-    private final String WON = "%s원\n";
-    private final String DISCOUNT_MESSAGE = "%s: ";
-    private final String NOTHING = "없음";
-    private final String MENU_INFO = "%s %d개\n";
-    private final DecimalFormat AMOUNT_FORMAT = new DecimalFormat("###,###");
+    private static final String WELCOME_MESSAGE = "안녕하세요! 우테코 식당 12월 이벤트 플래너입니다.";
+    private static final String EVENT_PREVIEW_MESSAGE = "12월 3일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!";
+    private static final String WON = "%s원\n";
+    private static final String DISCOUNT_MESSAGE = "%s: ";
+    private static final String NOTHING = "없음";
+    private static final String MENU_INFO = "%s %d개\n";
+    private static final DecimalFormat AMOUNT_FORMAT = new DecimalFormat("###,###");
 
     private final Printer printer;
 
