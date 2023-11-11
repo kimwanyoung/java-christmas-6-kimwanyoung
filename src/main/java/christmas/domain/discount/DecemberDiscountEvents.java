@@ -32,7 +32,6 @@ public class DecemberDiscountEvents {
         int discountAmount = discountPolicy.calculateDiscountAmount(visitDay);
         EventName discountName = discountPolicy.getDiscountName();
         if (discountPolicy.calculateDiscountAmount(visitDay) < 0) {
-            System.out.println(discountPolicy.calculateDiscountAmount(visitDay));
             discountStatistics.put(discountName, discountAmount);
         }
     }
