@@ -5,6 +5,7 @@ import static christmas.constants.DiscountAmountConstant.MIN_AMOUNT_FOR_DISCOUNT
 import christmas.domain.EventName;
 import christmas.domain.VisitDay;
 import christmas.domain.dto.DiscountResultDto;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,11 +24,13 @@ public class DecemberDiscountEvents {
         Map<EventName, Integer> discountStatistics = new HashMap<>();
         addDiscountPolicySatisfiedCondition(discountStatistics);
         int totalDiscountAmount = calculateTotalDiscountAmount(discountStatistics);
-        
+
         if (totalOrderAmount < MIN_AMOUNT_FOR_DISCOUNT) {
             return new DiscountResultDto(new HashMap<>(), 0);
         }
-        return new DiscountResultDto(discountStatistics, totalDiscountAmount);
+        return new DiscountResultDto(
+                Collections.unmodifiableMap(discountStatistics), totalDiscountAmount
+        );
     }
 
     private void addDiscountPolicySatisfiedCondition(Map<EventName, Integer> discountStatistics) {
