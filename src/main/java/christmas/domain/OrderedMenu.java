@@ -14,6 +14,7 @@ import java.util.Map.Entry;
 
 public class OrderedMenu {
 
+    private static final int MAX_ORDER_COUNT = 20;
     private final Map<Foods, Integer> orderedMenu;
 
     public OrderedMenu(Map<Foods, Integer> orderedMenu) {
@@ -44,7 +45,7 @@ public class OrderedMenu {
         for (int menuCount : menuResult.values()) {
             count += menuCount;
         }
-        if (count > 20) {
+        if (count > MAX_ORDER_COUNT) {
             throw new IllegalArgumentException(INVALID_MENU_ORDER_ERROR_MESSAGE);
         }
     }
