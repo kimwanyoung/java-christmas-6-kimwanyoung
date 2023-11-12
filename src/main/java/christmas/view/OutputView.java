@@ -59,39 +59,37 @@ public class OutputView {
     }
 
     public void displayTotalDiscounts(DiscountResultDto discountResultDto) {
-        Map<EventName, Integer> discountStatistics = discountResultDto.discountResult();
         printer.println(DISCOUNT_DETAILS);
-        printDiscountStatistics(discountStatistics);
+        printDiscountResult(discountResultDto.discountResult());
     }
 
     public void displayTotalDiscountAmount(DiscountResultDto discountResultDto) {
         printer.println(TOTAL_DISCOUNT_AMOUNT);
-        int discountAmount = discountResultDto.totalDiscountAmount();
-        printer.printf(WON, formattedAmount(discountAmount));
+        printer.printf(WON, formattedAmount(discountResultDto.totalDiscountAmount()));
     }
 
-    public void displayFinalPayment(
-            ReservationDto reservationDto, DiscountResultDto discountResultDto
-    ) {
+    public void displayFinalPayment(ReservationDto reservationDto,
+                                    DiscountResultDto discountResultDto) {
         printer.println(FINAL_PAYMENT_AMOUNT);
-        Map<EventName, Integer> discountResult = discountResultDto.discountResult();
-        int finalPayment =
-                reservationDto.totalOrderAmount() + discountResultDto.totalDiscountAmount();
-        printPayment(discountResult, finalPayment);
+        
+        int totalOrderAmount = reservationDto.totalOrderAmount();
+        int totalDiscountAmount = discountResultDto.totalDiscountAmount();
+        int finalPayment = totalOrderAmount + totalDiscountAmount;
+
+        printPayment(discountResultDto.discountResult(), finalPayment);
     }
 
     public void displayBadge(DiscountResultDto discountResultDto) {
         printer.println(EVENT_BADGE);
-        int discountAmount = discountResultDto.totalDiscountAmount();
-        String badge = Badge.calculateBadge(discountAmount);
+        String badge = Badge.calculateBadge(discountResultDto.totalDiscountAmount());
         printBadge(badge);
     }
 
     private void printMenuItems(Map<Foods, Integer> orderedMenu) {
         for (Entry<Foods, Integer> menu : orderedMenu.entrySet()) {
-            String name = menu.getKey().getName();
-            Integer count = menu.getValue();
-            printer.printf(MENU_INFO, name, count);
+            String menuName = menu.getKey().getName();
+            Integer menuCount = menu.getValue();
+            printer.printf(MENU_INFO, menuName, menuCount);
         }
     }
 
@@ -103,12 +101,12 @@ public class OutputView {
         printer.println(NOTHING);
     }
 
-    private void printDiscountStatistics(Map<EventName, Integer> discountStatistics) {
-        if (discountStatistics.isEmpty()) {
+    private void printDiscountResult(Map<EventName, Integer> discountResult) {
+        if (discountResult.isEmpty()) {
             printer.println(NOTHING);
             return;
         }
-        for (Entry<EventName, Integer> discount : discountStatistics.entrySet()) {
+        for (Entry<EventName, Integer> discount : discountResult.entrySet()) {
             printDiscounts(discount);
         }
     }
