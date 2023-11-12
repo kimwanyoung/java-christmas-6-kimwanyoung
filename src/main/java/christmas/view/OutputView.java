@@ -12,8 +12,8 @@ import static christmas.domain.menu.Foods.CHAMPAGNE;
 
 import christmas.domain.Badge;
 import christmas.domain.EventName;
-import christmas.domain.OrderedMenu;
 import christmas.domain.dto.DiscountResultDto;
+import christmas.domain.dto.ReservationDto;
 import christmas.domain.menu.Foods;
 import java.text.DecimalFormat;
 import java.util.Map;
@@ -22,7 +22,7 @@ import java.util.Map.Entry;
 public class OutputView {
 
     private static final String WELCOME_MESSAGE = "안녕하세요! 우테코 식당 12월 이벤트 플래너입니다.";
-    private static final String EVENT_PREVIEW_MESSAGE = "12월 3일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!";
+    private static final String EVENT_PREVIEW_MESSAGE = "12월 %d일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!";
     private static final String WON = "%s원\n";
     private static final String DISCOUNT_MESSAGE = "%s: ";
     private static final String NOTHING = "없음";
@@ -39,18 +39,18 @@ public class OutputView {
         printer.println(WELCOME_MESSAGE);
     }
 
-    public void displayEventPreviewMessage() {
-        printer.println(EVENT_PREVIEW_MESSAGE);
+    public void displayEventPreviewMessage(ReservationDto reservationDto) {
+        printer.printf(EVENT_PREVIEW_MESSAGE, reservationDto.visitDay());
     }
 
-    public void displayOrderedMenu(OrderedMenu orderedMenu) {
+    public void displayOrderedMenu(ReservationDto reservationDto) {
         printer.println(ORDER_MENU);
-        printMenuItems(orderedMenu.getOrderedMenu());
+        printMenuItems(reservationDto.orderedMenu());
     }
 
-    public void displayTotalOrderAmount(OrderedMenu orderedMenu) {
+    public void displayTotalOrderAmount(ReservationDto reservationDto) {
         printer.println(ORDER_TOTAL_AMOUNT);
-        printer.println(formattedAmount(orderedMenu.calculateTotalAmount()));
+        printer.println(formattedAmount(reservationDto.totalOrderAmount()));
     }
 
     public void displayGift(DiscountResultDto discountResultDto) {
@@ -71,12 +71,12 @@ public class OutputView {
     }
 
     public void displayFinalPayment(
-            OrderedMenu orderedMenu, DiscountResultDto discountResultDto
+            ReservationDto reservationDto, DiscountResultDto discountResultDto
     ) {
         printer.println(FINAL_PAYMENT_AMOUNT);
         Map<EventName, Integer> discountResult = discountResultDto.discountResult();
         int finalPayment =
-                orderedMenu.calculateTotalAmount() + discountResultDto.totalDiscountAmount();
+                reservationDto.totalOrderAmount() + discountResultDto.totalDiscountAmount();
         printPayment(discountResult, finalPayment);
     }
 

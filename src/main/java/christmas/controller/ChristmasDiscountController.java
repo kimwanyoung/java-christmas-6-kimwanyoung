@@ -3,6 +3,7 @@ package christmas.controller;
 import christmas.domain.OrderedMenu;
 import christmas.domain.VisitDay;
 import christmas.domain.dto.DiscountResultDto;
+import christmas.domain.dto.ReservationDto;
 import christmas.service.ChristmasDiscountService;
 import christmas.view.InputView;
 import christmas.view.OutputView;
@@ -11,7 +12,7 @@ public class ChristmasDiscountController {
 
     private final OutputView outputView;
     private final InputView inputView;
-    private final ChristmasDiscountService christmasDiscountService;
+    private final ChristmasDiscountService christmasService;
 
     public ChristmasDiscountController(
             OutputView outputView,
@@ -20,51 +21,52 @@ public class ChristmasDiscountController {
     ) {
         this.outputView = outputView;
         this.inputView = inputView;
-        this.christmasDiscountService = service;
+        this.christmasService = service;
     }
 
     public void run() {
         outputView.displayWelcomeMessage();
-        VisitDay visitDay = createValidVisitDay();
-        OrderedMenu orderedMenu = createValidOrderMenu();
-        outputView.displayEventPreviewMessage();
 
-        showOrderSummary(orderedMenu);
+        ReservationDto reservationDto = christmasService
+                .reservation(getValidVisitDay(), getValidOrderMenu());
 
-        DiscountResultDto discountDto = christmasDiscountService
-                .calculateDiscount(visitDay, orderedMenu);
+        outputView.displayEventPreviewMessage(reservationDto);
 
-        showDiscountSummary(orderedMenu, discountDto);
+        DiscountResultDto discountDto = christmasService.calculateDiscount();
+
+        showOrderSummary(reservationDto);
+        showDiscountSummary(reservationDto, discountDto);
     }
 
-    private VisitDay createValidVisitDay() {
+    private VisitDay getValidVisitDay() {
         try {
             return new VisitDay(inputView.getVisitDayFromInput());
         } catch (IllegalArgumentException exception) {
             System.out.println(exception.getMessage());
-            return createValidVisitDay();
+            return getValidVisitDay();
         }
     }
 
-    private OrderedMenu createValidOrderMenu() {
+    private OrderedMenu getValidOrderMenu() {
         try {
             return new OrderedMenu(inputView.getMenuAndCountFromInput());
         } catch (IllegalArgumentException exception) {
             System.out.println(exception.getMessage());
-            return createValidOrderMenu();
+            return getValidOrderMenu();
         }
     }
 
-    private void showOrderSummary(OrderedMenu orderedMenu) {
-        outputView.displayOrderedMenu(orderedMenu);
-        outputView.displayTotalOrderAmount(orderedMenu);
+    private void showOrderSummary(ReservationDto reservationDto) {
+        outputView.displayOrderedMenu(reservationDto);
+        outputView.displayTotalOrderAmount(reservationDto);
     }
 
-    private void showDiscountSummary(OrderedMenu orderedMenu, DiscountResultDto discountResultDto) {
+    private void showDiscountSummary(ReservationDto reservationDto,
+                                     DiscountResultDto discountResultDto) {
         outputView.displayGift(discountResultDto);
         outputView.displayTotalDiscounts(discountResultDto);
         outputView.displayTotalDiscountAmount(discountResultDto);
-        outputView.displayFinalPayment(orderedMenu, discountResultDto);
+        outputView.displayFinalPayment(reservationDto, discountResultDto);
         outputView.displayBadge(discountResultDto);
     }
 }
