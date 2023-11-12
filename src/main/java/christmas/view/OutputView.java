@@ -22,7 +22,7 @@ import java.util.Map.Entry;
 public class OutputView {
 
     private static final String WELCOME_MESSAGE = "안녕하세요! 우테코 식당 12월 이벤트 플래너입니다.";
-    private static final String EVENT_PREVIEW_MESSAGE = "12월 %d일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!";
+    private static final String EVENT_PREVIEW_MESSAGE = "12월 %d일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!\n";
     private static final String WON = "%s원\n";
     private static final String DISCOUNT_MESSAGE = "%s: ";
     private static final String NOTHING = "없음";
