@@ -9,7 +9,6 @@ import static christmas.constants.DiscountInfoConstants.ORDER_TOTAL_AMOUNT;
 import static christmas.constants.DiscountInfoConstants.TOTAL_DISCOUNT_AMOUNT;
 import static christmas.domain.EventName.GIFT_EVENT;
 import static christmas.domain.menu.Foods.CHAMPAGNE;
-import static christmas.domain.menu.Foods.calculateFoodsAmount;
 
 import christmas.domain.Badge;
 import christmas.domain.EventName;
@@ -122,7 +121,7 @@ public class OutputView {
 
     private void printPayment(Map<EventName, Integer> discountResult, int finalPayment) {
         if (discountResult.containsKey(GIFT_EVENT)) {
-            int giftPrice = calculateFoodsAmount(CHAMPAGNE, 1);
+            int giftPrice = Foods.calculateFoodsAmount(CHAMPAGNE, 1);
             printer.printf(WON, formattedAmount(finalPayment + giftPrice));
             return;
         }

@@ -9,15 +9,26 @@ import christmas.view.OutputView;
 
 public class Application {
     public static void main(String[] args) {
-        OutputView outputView = new OutputView(new DefaultPrinter());
-        InputView inputView = new InputView(new DefaultReader(), new DefaultPrinter());
-        
-        ChristmasDiscountService christmasDiscountService = new ChristmasDiscountService();
-        ChristmasDiscountController controller = new ChristmasDiscountController(
-                outputView,
-                inputView,
-                christmasDiscountService);
-
+        ChristmasDiscountController controller = getChristmasController();
         controller.run();
+    }
+
+    private static ChristmasDiscountController getChristmasController() {
+        return new ChristmasDiscountController(
+                getDefaultOutputView(),
+                getDefaultInputView(),
+                getChristmasService());
+    }
+
+    private static ChristmasDiscountService getChristmasService() {
+        return new ChristmasDiscountService();
+    }
+
+    private static OutputView getDefaultOutputView() {
+        return new OutputView(new DefaultPrinter());
+    }
+
+    private static InputView getDefaultInputView() {
+        return new InputView(new DefaultReader(), new DefaultPrinter());
     }
 }
