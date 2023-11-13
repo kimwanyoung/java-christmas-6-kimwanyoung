@@ -46,12 +46,15 @@ public enum FoodCategory {
     public static List<FoodCategory> getCategoriesOrderedFoods(Map<Foods, Integer> orderMenu) {
         List<FoodCategory> foodCategories = new ArrayList<>();
         for (FoodCategory category : FoodCategory.values()) {
-            FoodCategory orderCategory = findCategoryContainingFood(category, orderMenu);
-            if (orderCategory != null) {
-                foodCategories.add(orderCategory);
+            if (isContainFood(category, orderMenu)) {
+                foodCategories.add(category);
             }
         }
         return foodCategories;
+    }
+
+    private static boolean isContainFood(FoodCategory category, Map<Foods, Integer> orderMenu) {
+        return findCategoryContainingFood(category, orderMenu) != null;
     }
 
     private static FoodCategory findCategoryContainingFood(FoodCategory category,
