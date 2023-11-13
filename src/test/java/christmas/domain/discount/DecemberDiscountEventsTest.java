@@ -1,5 +1,6 @@
 package christmas.domain.discount;
 
+import static christmas.domain.EventName.GIFT_EVENT;
 import static christmas.domain.menu.Foods.BARBECUE_RIB;
 import static christmas.domain.menu.Foods.CAESAR_SALAD;
 import static christmas.domain.menu.Foods.CHOCOLATE_CAKE;
@@ -30,7 +31,6 @@ public class DecemberDiscountEventsTest {
         DecemberDiscountEvents decemberDiscountEvents = createDecemberDiscountEvents(3,
                 orderedMenu);
 
-        // when
         DiscountResultDto discountResultDto = decemberDiscountEvents.toDiscountResultDto(
                 orderedMenu.calculateTotalAmount());
         Map<EventName, Integer> discountsStatistics = discountResultDto.discountResult();
@@ -40,7 +40,7 @@ public class DecemberDiscountEventsTest {
                 EventName.CHRISTMAS_DISCOUNT,
                 EventName.WEEKDAY_DISCOUNT,
                 EventName.SPECIAL_DISCOUNT,
-                EventName.GIFT_EVENT);
+                GIFT_EVENT);
     }
 
     @Test
@@ -53,13 +53,30 @@ public class DecemberDiscountEventsTest {
         DecemberDiscountEvents decemberDiscountEvents = createDecemberDiscountEvents(16,
                 orderedMenu);
 
-        // when
         DiscountResultDto discountResultDto = decemberDiscountEvents.toDiscountResultDto(
                 orderedMenu.calculateTotalAmount());
         Map<EventName, Integer> discountsStatistics = discountResultDto.discountResult();
 
         // then
         Assertions.assertThat(discountsStatistics).isEmpty();
+    }
+
+    @Test
+    @DisplayName("120000원 미만 주문 시 증정 상품을 제공하지 않는다.")
+    void 증정_상품_제공_테스트() {
+        //given
+        OrderedMenu orderedMenu = createOrderedMenu(CAESAR_SALAD);
+
+        //when
+        DecemberDiscountEvents decemberDiscountEvents = createDecemberDiscountEvents(16,
+                orderedMenu);
+
+        DiscountResultDto discountResultDto = decemberDiscountEvents.toDiscountResultDto(
+                orderedMenu.calculateTotalAmount());
+        Map<EventName, Integer> discountsStatistics = discountResultDto.discountResult();
+
+        //then
+        Assertions.assertThat(discountsStatistics.containsKey(GIFT_EVENT)).isFalse();
     }
 
     private OrderedMenu createOrderedMenu(Foods... foods) {
