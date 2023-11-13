@@ -23,6 +23,7 @@ public class ChristmasDiscountService {
     public ReservationDto reservation(VisitDay validVisitday, OrderedMenu validOrderedMenu) {
         visitDay = validVisitday;
         orderedMenu = validOrderedMenu;
+        
         return new ReservationDto(
                 visitDay.getDay(),
                 orderedMenu.getOrderedMenu(),
@@ -36,7 +37,8 @@ public class ChristmasDiscountService {
     }
 
     private DecemberDiscountEvents createDecemberEvents() {
-        return new DecemberDiscountEvents(visitDay,
+        return new DecemberDiscountEvents(
+                visitDay,
                 new ChristmasDdayDiscount(CHRISTMAS_DISCOUNT),
                 new SpecialDayDiscount(SPECIAL_DISCOUNT),
                 new WeekdayDiscount(WEEKDAY_DISCOUNT, orderedMenu.getOrderedMenu()),
