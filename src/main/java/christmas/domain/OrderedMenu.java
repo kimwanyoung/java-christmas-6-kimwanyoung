@@ -2,7 +2,7 @@ package christmas.domain;
 
 import static christmas.constants.ExceptionMessage.INVALID_MENU_ORDER_ERROR_MESSAGE;
 import static christmas.domain.menu.FoodCategory.BEVERAGE;
-import static christmas.domain.menu.FoodCategory.getCurrentFoodCategory;
+import static christmas.domain.menu.FoodCategory.getCategoriesOrderedFoods;
 
 import christmas.domain.menu.FoodCategory;
 import christmas.domain.menu.Foods;
@@ -45,7 +45,7 @@ public class OrderedMenu {
     }
 
     private void validateOnlyBeverage(Map<Foods, Integer> orderedMenu) {
-        List<FoodCategory> orderFoodCategory = getCurrentFoodCategory(orderedMenu);
+        List<FoodCategory> orderFoodCategory = getCategoriesOrderedFoods(orderedMenu);
         if (orderFoodCategory.size() == 1 && orderFoodCategory.contains(BEVERAGE)) {
             throw new IllegalArgumentException(INVALID_MENU_ORDER_ERROR_MESSAGE);
         }

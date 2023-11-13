@@ -43,10 +43,10 @@ public enum FoodCategory {
         return count;
     }
 
-    public static List<FoodCategory> getCurrentFoodCategory(Map<Foods, Integer> orderMenu) {
+    public static List<FoodCategory> getCategoriesOrderedFoods(Map<Foods, Integer> orderMenu) {
         List<FoodCategory> foodCategories = new ArrayList<>();
         for (FoodCategory category : FoodCategory.values()) {
-            FoodCategory orderCategory = getCategoryContainFood(category, orderMenu);
+            FoodCategory orderCategory = findCategoryContainingFood(category, orderMenu);
             if (orderCategory != null) {
                 foodCategories.add(orderCategory);
             }
@@ -54,8 +54,8 @@ public enum FoodCategory {
         return foodCategories;
     }
 
-    private static FoodCategory getCategoryContainFood(FoodCategory category,
-                                                       Map<Foods, Integer> orderMenu) {
+    private static FoodCategory findCategoryContainingFood(FoodCategory category,
+                                                           Map<Foods, Integer> orderMenu) {
         for (Foods food : orderMenu.keySet()) {
             if (category.foods.contains(food)) {
                 return category;
