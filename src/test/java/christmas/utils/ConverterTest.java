@@ -18,4 +18,14 @@ public class ConverterTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(INVALID_MENU_ORDER_ERROR_MESSAGE);
     }
+
+    @ParameterizedTest(name = "입력 값 : {0}")
+    @ValueSource(strings = {"크림파스타-1,티본스테이크-1", "삼겹살-2,바비큐립-1"})
+    @DisplayName("없는 메뉴 입력시 예외가 발생한다.")
+    void 없는_메뉴_입력_시_예외_테스트(String input) {
+        //when, then
+        Assertions.assertThatThrownBy(() -> Converter.convertInputToOrderedMenu(input))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining(INVALID_MENU_ORDER_ERROR_MESSAGE);
+    }
 }
