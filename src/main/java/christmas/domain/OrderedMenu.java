@@ -35,11 +35,7 @@ public class OrderedMenu {
     }
 
     private static void validateOverTwenty(Map<Foods, Integer> menuResult) {
-        int count = 0;
-        for (int menuCount : menuResult.values()) {
-            count += menuCount;
-        }
-        if (count > MAX_ORDER_COUNT) {
+        if (calculateOrderFoodCounts(menuResult) > MAX_ORDER_COUNT) {
             throw new IllegalArgumentException(INVALID_MENU_ORDER_ERROR_MESSAGE);
         }
     }
@@ -49,5 +45,13 @@ public class OrderedMenu {
         if (orderFoodCategory.size() == 1 && orderFoodCategory.contains(BEVERAGE)) {
             throw new IllegalArgumentException(INVALID_MENU_ORDER_ERROR_MESSAGE);
         }
+    }
+
+    private static int calculateOrderFoodCounts(Map<Foods, Integer> menuResult) {
+        int count = 0;
+        for (int menuCount : menuResult.values()) {
+            count += menuCount;
+        }
+        return count;
     }
 }
