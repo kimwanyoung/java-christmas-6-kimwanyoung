@@ -27,8 +27,9 @@ public class ChristmasDiscountController {
     public void run() {
         outputView.displayWelcomeMessage();
 
-        ReservationDto reservationDto = christmasService
-                .reservation(getValidVisitDay(), getValidOrderMenu());
+        VisitDay visitDay = getValidVisitDay();
+        OrderedMenu orderedMenu = getValidOrderMenu();
+        ReservationDto reservationDto = christmasService.reservation(visitDay, orderedMenu);
 
         outputView.displayEventPreviewMessage(reservationDto);
 
