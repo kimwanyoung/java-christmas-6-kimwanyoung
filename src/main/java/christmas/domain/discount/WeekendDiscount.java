@@ -17,20 +17,23 @@ public class WeekendDiscount extends DiscountPolicy {
 
     private static final List<DayOfWeek> WEEKEND = List.of(FRIDAY, SATURDAY);
     private final Map<Foods, Integer> orderedMenu;
+    private final VisitDay visitDay;
 
-    public WeekendDiscount(EventName eventName, Map<Foods, Integer> orderedMenu) {
+    public WeekendDiscount(EventName eventName, Map<Foods, Integer> orderedMenu,
+                           VisitDay visitDay) {
         super(eventName);
         this.orderedMenu = orderedMenu;
+        this.visitDay = visitDay;
     }
 
     @Override
-    public int calculateDiscountAmount(VisitDay visitDay) {
+    public int calculateDiscountAmount() {
         int mainCourseCount = calculateFoodCountInCategory(MAIN_COURSE, orderedMenu);
         return mainCourseCount * DISCOUNT_PER_MENU_AMOUNT;
     }
 
     @Override
-    public boolean isDiscountDay(VisitDay visitDay) {
+    public boolean isDiscountDay() {
         return visitDay.isWeekend(WEEKEND);
     }
 }

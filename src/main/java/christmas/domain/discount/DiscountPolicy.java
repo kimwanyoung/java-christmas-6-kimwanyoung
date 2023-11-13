@@ -1,7 +1,6 @@
 package christmas.domain.discount;
 
 import christmas.domain.EventName;
-import christmas.domain.VisitDay;
 
 public abstract class DiscountPolicy {
 
@@ -11,9 +10,9 @@ public abstract class DiscountPolicy {
         this.eventName = eventName;
     }
 
-    public abstract int calculateDiscountAmount(VisitDay visitDay);
+    public abstract int calculateDiscountAmount();
 
-    public abstract boolean isDiscountDay(VisitDay visitDay);
+    public abstract boolean isDiscountDay();
 
     public EventName getDiscountName() {
         return eventName;

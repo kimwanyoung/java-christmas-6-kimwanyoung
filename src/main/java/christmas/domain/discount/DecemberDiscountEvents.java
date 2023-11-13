@@ -6,7 +6,6 @@ import static christmas.constants.DiscountAmountConstant.MIN_AMOUNT_FOR_GIFT;
 import static christmas.domain.EventName.GIFT_EVENT;
 
 import christmas.domain.EventName;
-import christmas.domain.VisitDay;
 import christmas.domain.dto.DiscountResultDto;
 import java.util.Collections;
 import java.util.HashMap;
@@ -16,11 +15,9 @@ import java.util.Map;
 public class DecemberDiscountEvents {
 
     private final List<DiscountPolicy> discounts;
-    private final VisitDay visitDay;
 
-    public DecemberDiscountEvents(VisitDay visitDay, DiscountPolicy... discounts) {
+    public DecemberDiscountEvents(DiscountPolicy... discounts) {
         this.discounts = List.of(discounts);
-        this.visitDay = visitDay;
     }
 
     public DiscountResultDto toDiscountResultDto(int totalOrderAmount) {
@@ -41,7 +38,7 @@ public class DecemberDiscountEvents {
 
     private void addDiscountPolicySatisfiedCondition(Map<EventName, Integer> discountStatistics) {
         for (DiscountPolicy discountPolicy : discounts) {
-            if (discountPolicy.isDiscountDay(visitDay)) {
+            if (discountPolicy.isDiscountDay()) {
                 addDiscountMoreThanZero(discountStatistics, discountPolicy);
             }
         }
@@ -58,7 +55,7 @@ public class DecemberDiscountEvents {
     private void addDiscountMoreThanZero(
             Map<EventName, Integer> discountStatistics, DiscountPolicy discountPolicy
     ) {
-        int discountAmount = discountPolicy.calculateDiscountAmount(visitDay);
+        int discountAmount = discountPolicy.calculateDiscountAmount();
         EventName discountName = discountPolicy.getDiscountName();
         if (discountAmount < 0) {
             discountStatistics.put(discountName, discountAmount);

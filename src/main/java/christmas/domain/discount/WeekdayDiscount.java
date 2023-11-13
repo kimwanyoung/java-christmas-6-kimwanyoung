@@ -21,20 +21,26 @@ public class WeekdayDiscount extends DiscountPolicy {
     private static final List<DayOfWeek> WEEKDAY = List.of(SUNDAY, MONDAY, TUESDAY, WEDNESDAY,
             THURSDAY);
     private final Map<Foods, Integer> orderedMenu;
+    private final VisitDay visitDay;
 
-    public WeekdayDiscount(EventName eventName, Map<Foods, Integer> orderedMenu) {
+    public WeekdayDiscount(
+            EventName eventName,
+            Map<Foods, Integer> orderedMenu,
+            VisitDay visitDay
+    ) {
         super(eventName);
         this.orderedMenu = orderedMenu;
+        this.visitDay = visitDay;
     }
 
     @Override
-    public int calculateDiscountAmount(VisitDay visitDay) {
+    public int calculateDiscountAmount() {
         int dessertCount = calculateFoodCountInCategory(DESSERT, orderedMenu);
         return dessertCount * DISCOUNT_PER_MENU_AMOUNT;
     }
 
     @Override
-    public boolean isDiscountDay(VisitDay visitDay) {
+    public boolean isDiscountDay() {
         return visitDay.isWeekday(WEEKDAY);
     }
 }

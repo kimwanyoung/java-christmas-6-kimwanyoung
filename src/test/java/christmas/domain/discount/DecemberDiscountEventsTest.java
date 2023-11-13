@@ -1,6 +1,10 @@
 package christmas.domain.discount;
 
+import static christmas.domain.EventName.CHRISTMAS_DISCOUNT;
 import static christmas.domain.EventName.GIFT_EVENT;
+import static christmas.domain.EventName.SPECIAL_DISCOUNT;
+import static christmas.domain.EventName.WEEKDAY_DISCOUNT;
+import static christmas.domain.EventName.WEEKEND_DISCOUNT;
 import static christmas.domain.menu.Foods.BARBECUE_RIB;
 import static christmas.domain.menu.Foods.CAESAR_SALAD;
 import static christmas.domain.menu.Foods.CHOCOLATE_CAKE;
@@ -36,11 +40,8 @@ public class DecemberDiscountEventsTest {
         Map<EventName, Integer> discountsStatistics = discountResultDto.discountResult();
 
         // then
-        Assertions.assertThat(discountsStatistics).containsKeys(
-                EventName.CHRISTMAS_DISCOUNT,
-                EventName.WEEKDAY_DISCOUNT,
-                EventName.SPECIAL_DISCOUNT,
-                GIFT_EVENT);
+        Assertions.assertThat(discountsStatistics)
+                .containsKeys(CHRISTMAS_DISCOUNT, WEEKDAY_DISCOUNT, SPECIAL_DISCOUNT, GIFT_EVENT);
     }
 
     @Test
@@ -107,11 +108,11 @@ public class DecemberDiscountEventsTest {
     }
 
     private DecemberDiscountEvents createDecemberDiscountEvents(int day, OrderedMenu orderedMenu) {
+        VisitDay visitDay = new VisitDay(day);
         return new DecemberDiscountEvents(
-                new VisitDay(day),
-                new ChristmasDdayDiscount(EventName.CHRISTMAS_DISCOUNT),
-                new SpecialDayDiscount(EventName.SPECIAL_DISCOUNT),
-                new WeekdayDiscount(EventName.WEEKDAY_DISCOUNT, orderedMenu.getOrderedMenu()),
-                new WeekendDiscount(EventName.WEEKEND_DISCOUNT, orderedMenu.getOrderedMenu()));
+                new ChristmasDdayDiscount(CHRISTMAS_DISCOUNT, visitDay),
+                new SpecialDayDiscount(SPECIAL_DISCOUNT, visitDay),
+                new WeekdayDiscount(WEEKDAY_DISCOUNT, orderedMenu.getOrderedMenu(), visitDay),
+                new WeekendDiscount(WEEKEND_DISCOUNT, orderedMenu.getOrderedMenu(), visitDay));
     }
 }

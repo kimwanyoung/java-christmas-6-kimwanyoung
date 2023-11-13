@@ -15,10 +15,12 @@ public class SpecialDayDiscountTest {
     @DisplayName("특별 할인 날짜가 맞는지 확인한다.")
     void 특별_할인_날짜_테스트(int day, boolean expected) {
         //given
-        SpecialDayDiscount specialDayDiscount = new SpecialDayDiscount(SPECIAL_DISCOUNT);
+        SpecialDayDiscount specialDayDiscount = new SpecialDayDiscount(
+                SPECIAL_DISCOUNT,
+                new VisitDay(day));
 
         //when
-        boolean actual = specialDayDiscount.isDiscountDay(new VisitDay(day));
+        boolean actual = specialDayDiscount.isDiscountDay();
 
         //then
         Assertions.assertThat(actual).isEqualTo(expected);

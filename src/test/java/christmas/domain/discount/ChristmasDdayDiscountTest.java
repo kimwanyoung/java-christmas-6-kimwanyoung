@@ -15,10 +15,12 @@ public class ChristmasDdayDiscountTest {
     @DisplayName("크리스마스 디데이 할인 날짜가 맞는지 확인한다.")
     void 크리스마스_디데이_할인_날짜_테스트(int day, boolean expected) {
         //given
-        ChristmasDdayDiscount christmasDdayDiscount = new ChristmasDdayDiscount(CHRISTMAS_DISCOUNT);
+        ChristmasDdayDiscount christmasDdayDiscount = new ChristmasDdayDiscount(
+                CHRISTMAS_DISCOUNT,
+                new VisitDay(day));
 
         //when
-        boolean actual = christmasDdayDiscount.isDiscountDay(new VisitDay(day));
+        boolean actual = christmasDdayDiscount.isDiscountDay();
 
         //then
         Assertions.assertThat(actual).isEqualTo(expected);

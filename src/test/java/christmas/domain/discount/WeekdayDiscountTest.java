@@ -19,10 +19,13 @@ public class WeekdayDiscountTest {
     void 평일_할인_날짜_테스트(int day, boolean expected) {
         //given
         Map<Foods, Integer> foods = new HashMap<>();
-        WeekdayDiscount weekdayDiscount = new WeekdayDiscount(WEEKDAY_DISCOUNT, foods);
+        WeekdayDiscount weekdayDiscount = new WeekdayDiscount(
+                WEEKDAY_DISCOUNT,
+                foods,
+                new VisitDay(day));
 
         //when
-        boolean actual = weekdayDiscount.isDiscountDay(new VisitDay(day));
+        boolean actual = weekdayDiscount.isDiscountDay();
 
         //then
         Assertions.assertThat(actual).isEqualTo(expected);
