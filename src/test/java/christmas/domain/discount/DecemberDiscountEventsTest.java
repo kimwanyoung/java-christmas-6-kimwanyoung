@@ -79,6 +79,25 @@ public class DecemberDiscountEventsTest {
         Assertions.assertThat(discountsStatistics.containsKey(GIFT_EVENT)).isFalse();
     }
 
+    @Test
+    @DisplayName("120000원 이상 주문 시 증정 상품을 제공한다.")
+    void 증정_상품_제공_정상_테스트() {
+        //given
+        OrderedMenu orderedMenu = createOrderedMenu(T_BONE_STEAK, BARBECUE_RIB, ZERO_COKE,
+                CHOCOLATE_CAKE);
+
+        //when
+        DecemberDiscountEvents decemberDiscountEvents = createDecemberDiscountEvents(16,
+                orderedMenu);
+
+        DiscountResultDto discountResultDto = decemberDiscountEvents.toDiscountResultDto(
+                orderedMenu.calculateTotalAmount());
+        Map<EventName, Integer> discountsStatistics = discountResultDto.discountResult();
+
+        //then
+        Assertions.assertThat(discountsStatistics.containsKey(GIFT_EVENT)).isTrue();
+    }
+
     private OrderedMenu createOrderedMenu(Foods... foods) {
         Map<Foods, Integer> menus = new HashMap<>();
         for (Foods food : foods) {
