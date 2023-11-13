@@ -76,7 +76,6 @@ public class DecemberDiscountEventsTest {
                 new ChristmasDdayDiscount(EventName.CHRISTMAS_DISCOUNT),
                 new SpecialDayDiscount(EventName.SPECIAL_DISCOUNT),
                 new WeekdayDiscount(EventName.WEEKDAY_DISCOUNT, orderedMenu.getOrderedMenu()),
-                new WeekendDiscount(EventName.WEEKEND_DISCOUNT, orderedMenu.getOrderedMenu()),
-                new FreeGift(EventName.GIFT_EVENT, orderedMenu.calculateTotalAmount()));
+                new WeekendDiscount(EventName.WEEKEND_DISCOUNT, orderedMenu.getOrderedMenu()));
     }
 }

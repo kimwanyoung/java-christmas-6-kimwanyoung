@@ -1,6 +1,9 @@
 package christmas.domain.discount;
 
+import static christmas.constants.DiscountAmountConstant.FREE_GIFT_AMOUNT;
 import static christmas.constants.DiscountAmountConstant.MIN_AMOUNT_FOR_DISCOUNT;
+import static christmas.constants.DiscountAmountConstant.MIN_AMOUNT_FOR_GIFT;
+import static christmas.domain.EventName.GIFT_EVENT;
 
 import christmas.domain.EventName;
 import christmas.domain.VisitDay;
@@ -21,15 +24,18 @@ public class DecemberDiscountEvents {
     }
 
     public DiscountResultDto toDiscountResultDto(int totalOrderAmount) {
-        Map<EventName, Integer> discountStatistics = new HashMap<>();
-        addDiscountPolicySatisfiedCondition(discountStatistics);
-        int totalDiscountAmount = calculateTotalDiscountAmount(discountStatistics);
-
         if (totalOrderAmount < MIN_AMOUNT_FOR_DISCOUNT) {
             return new DiscountResultDto(new HashMap<>(), 0);
         }
+
+        Map<EventName, Integer> discountStatistics = new HashMap<>();
+        addDiscountPolicySatisfiedCondition(discountStatistics);
+        addFreeGiftSatisfiedCondition(discountStatistics, totalOrderAmount);
+        int totalDiscountAmount = calculateTotalDiscountAmount(discountStatistics);
+        
         return new DiscountResultDto(
-                Collections.unmodifiableMap(discountStatistics), totalDiscountAmount
+                Collections.unmodifiableMap(discountStatistics),
+                totalDiscountAmount
         );
     }
 
@@ -56,6 +62,13 @@ public class DecemberDiscountEvents {
         EventName discountName = discountPolicy.getDiscountName();
         if (discountPolicy.calculateDiscountAmount(visitDay) < 0) {
             discountStatistics.put(discountName, discountAmount);
+        }
+    }
+
+    private void addFreeGiftSatisfiedCondition(Map<EventName, Integer> discountStatistics,
+                                               int totalOrderAmount) {
+        if (totalOrderAmount >= MIN_AMOUNT_FOR_GIFT) {
+            discountStatistics.put(GIFT_EVENT, FREE_GIFT_AMOUNT);
         }
     }
 }
