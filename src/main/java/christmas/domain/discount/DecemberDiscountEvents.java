@@ -32,7 +32,7 @@ public class DecemberDiscountEvents {
         addDiscountPolicySatisfiedCondition(discountStatistics);
         addFreeGiftSatisfiedCondition(discountStatistics, totalOrderAmount);
         int totalDiscountAmount = calculateTotalDiscountAmount(discountStatistics);
-        
+
         return new DiscountResultDto(
                 Collections.unmodifiableMap(discountStatistics),
                 totalDiscountAmount
@@ -60,7 +60,7 @@ public class DecemberDiscountEvents {
     ) {
         int discountAmount = discountPolicy.calculateDiscountAmount(visitDay);
         EventName discountName = discountPolicy.getDiscountName();
-        if (discountPolicy.calculateDiscountAmount(visitDay) < 0) {
+        if (discountAmount < 0) {
             discountStatistics.put(discountName, discountAmount);
         }
     }
