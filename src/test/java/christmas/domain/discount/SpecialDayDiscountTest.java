@@ -1,6 +1,6 @@
 package christmas.domain.discount;
 
-import static christmas.domain.EventName.CHRISTMAS_DISCOUNT;
+import static christmas.domain.EventName.SPECIAL_DISCOUNT;
 
 import christmas.domain.VisitDay;
 import org.assertj.core.api.Assertions;
@@ -15,7 +15,7 @@ public class SpecialDayDiscountTest {
     @DisplayName("특별 할인 날짜가 맞는지 확인한다.")
     void 특별_할인_날짜_테스트(int day, boolean expected) {
         //given
-        SpecialDayDiscount specialDayDiscount = new SpecialDayDiscount(CHRISTMAS_DISCOUNT);
+        SpecialDayDiscount specialDayDiscount = new SpecialDayDiscount(SPECIAL_DISCOUNT);
 
         //when
         boolean actual = specialDayDiscount.isDiscountDay(new VisitDay(day));
