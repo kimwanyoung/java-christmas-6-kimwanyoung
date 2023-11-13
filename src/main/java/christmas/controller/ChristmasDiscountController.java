@@ -33,10 +33,11 @@ public class ChristmasDiscountController {
 
         outputView.displayEventPreviewMessage(reservationDto);
 
-        DiscountResultDto discountDto = christmasService.calculateDiscount();
+        DiscountResultDto discountResultDto = christmasService.calculateDiscount();
 
         showOrderSummary(reservationDto);
-        showDiscountSummary(reservationDto, discountDto);
+        showDiscountSummary(discountResultDto);
+        showFinalPaymentSummary(reservationDto, discountResultDto);
     }
 
     private VisitDay getValidVisitDay() {
@@ -62,11 +63,14 @@ public class ChristmasDiscountController {
         outputView.displayTotalOrderAmount(reservationDto);
     }
 
-    private void showDiscountSummary(ReservationDto reservationDto,
-                                     DiscountResultDto discountResultDto) {
+    private void showDiscountSummary(DiscountResultDto discountResultDto) {
         outputView.displayGift(discountResultDto);
         outputView.displayTotalDiscounts(discountResultDto);
         outputView.displayTotalDiscountAmount(discountResultDto);
+    }
+
+    private void showFinalPaymentSummary(ReservationDto reservationDto,
+                                         DiscountResultDto discountResultDto) {
         outputView.displayFinalPayment(reservationDto, discountResultDto);
         outputView.displayBadge(discountResultDto);
     }
