@@ -6,6 +6,7 @@ import static christmas.domain.menu.FoodCategory.getCategoriesOrderedFoods;
 
 import christmas.domain.menu.FoodCategory;
 import christmas.domain.menu.Foods;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,7 @@ public class OrderedMenu {
     private final Map<Foods, Integer> orderedMenu;
 
     public OrderedMenu(Map<Foods, Integer> orderedMenu) {
-        validateOverTwenty(orderedMenu);
+        validateOverTwenty(orderedMenu.values());
         validateOnlyBeverage(orderedMenu);
         this.orderedMenu = orderedMenu;
     }
@@ -34,8 +35,8 @@ public class OrderedMenu {
         return totalAmount;
     }
 
-    private static void validateOverTwenty(Map<Foods, Integer> menuResult) {
-        if (calculateOrderFoodCounts(menuResult) > MAX_ORDER_COUNT) {
+    private static void validateOverTwenty(Collection<Integer> orderMenuCounts) {
+        if (calculateOrderFoodCounts(orderMenuCounts) > MAX_ORDER_COUNT) {
             throw new IllegalArgumentException(INVALID_MENU_ORDER_ERROR_MESSAGE);
         }
     }
@@ -47,9 +48,9 @@ public class OrderedMenu {
         }
     }
 
-    private static int calculateOrderFoodCounts(Map<Foods, Integer> menuResult) {
+    private static int calculateOrderFoodCounts(Collection<Integer> orderMenuCounts) {
         int count = 0;
-        for (int menuCount : menuResult.values()) {
+        for (int menuCount : orderMenuCounts) {
             count += menuCount;
         }
         return count;
