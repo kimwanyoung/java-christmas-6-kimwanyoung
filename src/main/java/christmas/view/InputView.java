@@ -39,7 +39,7 @@ public class InputView {
             String orderMenu = reader.read();
             validateEmptyInput(orderMenu, INVALID_MENU_ORDER_ERROR_MESSAGE);
             validateMenuFormat(orderMenu, MENU_INPUT_FORMAT);
-            return Converter.convertToMenuResult(orderMenu);
+            return Converter.convertInputToOrderedMenu(orderMenu);
         } catch (NumberFormatException exception) {
             throw new IllegalArgumentException(INVALID_MENU_ORDER_ERROR_MESSAGE);
         }

@@ -8,6 +8,7 @@ import static christmas.domain.menu.Foods.convertStringToFoods;
 import christmas.domain.menu.Foods;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -26,17 +27,23 @@ public class Converter {
         return localDate.getDayOfWeek();
     }
 
-    public static Map<Foods, Integer> convertToMenuResult(String input) {
+    public static Map<Foods, Integer> convertInputToOrderedMenu(String input) {
         List<String> splitedMenus = splitByComma(input);
         Map<Foods, Integer> menuResult = new HashMap<>();
+
         for (String menu : splitedMenus) {
-            List<String> menuAndAmount = splitByDash(menu);
-            Foods menuName = convertStringToFoods(menuAndAmount.get(0));
-            Integer menuAmount = Integer.parseInt(menuAndAmount.get(1));
-            validateMenu(menuResult, menuName);
-            menuResult.put(menuName, menuAmount);
+            Map.Entry<Foods, Integer> menuPair = extractMenu(menu);
+            validateMenu(menuResult, menuPair.getKey());
+            menuResult.put(menuPair.getKey(), menuPair.getValue());
         }
         return menuResult;
+    }
+
+    private static Map.Entry<Foods, Integer> extractMenu(String menu) {
+        List<String> menuAndAmount = splitByDash(menu);
+        Foods menuName = convertStringToFoods(menuAndAmount.get(0));
+        Integer menuAmount = Integer.parseInt(menuAndAmount.get(1));
+        return new AbstractMap.SimpleEntry<>(menuName, menuAmount);
     }
 
     private static void validateMenu(Map<Foods, Integer> menuResult, Foods menuName) {
