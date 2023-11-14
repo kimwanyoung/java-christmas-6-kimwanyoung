@@ -1,5 +1,6 @@
 package christmas.domain.menu;
 
+import christmas.domain.OrderedMenu;
 import java.util.HashMap;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
@@ -19,7 +20,8 @@ public class FoodCategoryTest {
         menus.put(Foods.CHOCOLATE_CAKE, 2);
 
         //when
-        int actual = FoodCategory.calculateFoodCountInCategory(FoodCategory.DESSERT, menus);
+        int actual = FoodCategory.calculateFoodCountInCategory(FoodCategory.DESSERT,
+                new OrderedMenu(menus));
 
         //then
         Assertions.assertThat(actual).isEqualTo(2);

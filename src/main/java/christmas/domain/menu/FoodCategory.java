@@ -13,15 +13,16 @@ import static christmas.domain.menu.Foods.TAPAS;
 import static christmas.domain.menu.Foods.T_BONE_STEAK;
 import static christmas.domain.menu.Foods.ZERO_COKE;
 
+import christmas.domain.OrderedMenu;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public enum FoodCategory {
-    APPETIZER("애피타이저", List.of(MUSHROOM_SOUP, TAPAS, CAESAR_SALAD)),
-    MAIN_COURSE("메인", List.of(T_BONE_STEAK, BARBECUE_RIB, SEAFOOD_PASTA, CHRISTMAS_PASTA)),
-    DESSERT("디저트", List.of(CHOCOLATE_CAKE, ICECREAM)),
-    BEVERAGE("음료", List.of(ZERO_COKE, RED_WINE, CHAMPAGNE));
+    APPETIZER("애피타이저", List.of(MUSHROOM_SOUP, TAPAS, CAESAR_SALAD)), MAIN_COURSE("메인",
+            List.of(T_BONE_STEAK, BARBECUE_RIB, SEAFOOD_PASTA, CHRISTMAS_PASTA)), DESSERT("디저트",
+            List.of(CHOCOLATE_CAKE, ICECREAM)), BEVERAGE("음료",
+            List.of(ZERO_COKE, RED_WINE, CHAMPAGNE));
 
     private final String name;
     private final List<Foods> foods;
@@ -31,14 +32,11 @@ public enum FoodCategory {
         this.foods = foods;
     }
 
-    public static int calculateFoodCountInCategory(
-            FoodCategory foodCategory, Map<Foods, Integer> foods
-    ) {
+    public static int calculateFoodCountInCategory(FoodCategory foodCategory,
+                                                   OrderedMenu orderedMenu) {
         int count = 0;
-        for (Foods food : foods.keySet()) {
-            if (foodCategory.foods.contains(food)) {
-                count += foods.get(food);
-            }
+        for (Foods food : foodCategory.foods) {
+            count += orderedMenu.getCountFoodInCategory(food);
         }
         return count;
     }

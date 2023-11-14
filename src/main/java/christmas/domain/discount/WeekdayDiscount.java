@@ -10,24 +10,19 @@ import static java.time.DayOfWeek.TUESDAY;
 import static java.time.DayOfWeek.WEDNESDAY;
 
 import christmas.domain.EventName;
+import christmas.domain.OrderedMenu;
 import christmas.domain.VisitDay;
-import christmas.domain.menu.Foods;
 import java.time.DayOfWeek;
 import java.util.List;
-import java.util.Map;
 
 public class WeekdayDiscount extends DiscountPolicy {
 
     private static final List<DayOfWeek> WEEKDAY = List.of(SUNDAY, MONDAY, TUESDAY, WEDNESDAY,
             THURSDAY);
-    private final Map<Foods, Integer> orderedMenu;
+    private final OrderedMenu orderedMenu;
     private final VisitDay visitDay;
 
-    public WeekdayDiscount(
-            EventName eventName,
-            Map<Foods, Integer> orderedMenu,
-            VisitDay visitDay
-    ) {
+    public WeekdayDiscount(EventName eventName, OrderedMenu orderedMenu, VisitDay visitDay) {
         super(eventName);
         this.orderedMenu = orderedMenu;
         this.visitDay = visitDay;

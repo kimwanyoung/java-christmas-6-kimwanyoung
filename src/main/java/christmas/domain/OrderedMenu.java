@@ -35,6 +35,10 @@ public class OrderedMenu {
         return totalAmount;
     }
 
+    public int getCountFoodInCategory(Foods food) {
+        return orderedMenu.getOrDefault(food, 0);
+    }
+
     private static void validateOverTwenty(Collection<Integer> orderMenuCounts) {
         if (calculateOrderFoodCounts(orderMenuCounts) > MAX_ORDER_COUNT) {
             throw new IllegalArgumentException(INVALID_MENU_ORDER_ERROR_MESSAGE);

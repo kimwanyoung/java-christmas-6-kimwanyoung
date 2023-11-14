@@ -2,6 +2,7 @@ package christmas.domain.discount;
 
 import static christmas.domain.EventName.WEEKDAY_DISCOUNT;
 
+import christmas.domain.OrderedMenu;
 import christmas.domain.VisitDay;
 import christmas.domain.menu.Foods;
 import java.util.HashMap;
@@ -21,7 +22,7 @@ public class WeekdayDiscountTest {
         Map<Foods, Integer> foods = new HashMap<>();
         WeekdayDiscount weekdayDiscount = new WeekdayDiscount(
                 WEEKDAY_DISCOUNT,
-                foods,
+                new OrderedMenu(foods),
                 new VisitDay(day));
 
         //when

@@ -112,7 +112,7 @@ public class DecemberDiscountEventsTest {
         return new DecemberDiscountEvents(
                 new ChristmasDdayDiscount(CHRISTMAS_DISCOUNT, visitDay),
                 new SpecialDayDiscount(SPECIAL_DISCOUNT, visitDay),
-                new WeekdayDiscount(WEEKDAY_DISCOUNT, orderedMenu.getOrderedMenu(), visitDay),
-                new WeekendDiscount(WEEKEND_DISCOUNT, orderedMenu.getOrderedMenu(), visitDay));
+                new WeekdayDiscount(WEEKDAY_DISCOUNT, orderedMenu, visitDay),
+                new WeekendDiscount(WEEKEND_DISCOUNT, orderedMenu, visitDay));
     }
 }
