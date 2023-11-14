@@ -2,8 +2,6 @@ package christmas.view;
 
 import static christmas.constants.ExceptionMessage.INVALID_DAY_ERROR_MESSAGE;
 import static christmas.constants.ExceptionMessage.INVALID_MENU_ORDER_ERROR_MESSAGE;
-import static christmas.utils.InputValidator.validateEmptyInput;
-import static christmas.utils.InputValidator.validateMenuFormat;
 
 import christmas.domain.menu.Foods;
 import christmas.utils.Converter;
@@ -42,6 +40,18 @@ public class InputView {
             return Converter.convertInputToOrderedMenu(orderMenu);
         } catch (NumberFormatException exception) {
             throw new IllegalArgumentException(INVALID_MENU_ORDER_ERROR_MESSAGE);
+        }
+    }
+
+    public static void validateMenuFormat(String input, String pattern) {
+        if (!input.matches(pattern)) {
+            throw new IllegalArgumentException(INVALID_MENU_ORDER_ERROR_MESSAGE);
+        }
+    }
+
+    public static void validateEmptyInput(String input, String errorMessage) {
+        if (input.isEmpty() || input.isBlank()) {
+            throw new IllegalArgumentException(errorMessage);
         }
     }
 }
