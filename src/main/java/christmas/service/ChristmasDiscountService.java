@@ -14,16 +14,23 @@ import christmas.domain.discount.WeekdayDiscount;
 import christmas.domain.discount.WeekendDiscount;
 import christmas.domain.dto.DiscountResultDto;
 import christmas.domain.dto.ReservationDto;
+import christmas.domain.menu.Foods;
+import java.util.Map;
 
 public class ChristmasDiscountService {
 
     private VisitDay visitDay;
     private OrderedMenu orderedMenu;
 
-    public ReservationDto reservation(VisitDay validVisitday, OrderedMenu validOrderedMenu) {
-        visitDay = validVisitday;
-        orderedMenu = validOrderedMenu;
+    public void generateValidVisitDay(int visitDay) {
+        this.visitDay = new VisitDay(visitDay);
+    }
 
+    public void generateValidOrderedMenu(Map<Foods, Integer> orderedMenu) {
+        this.orderedMenu = new OrderedMenu(orderedMenu);
+    }
+
+    public ReservationDto calculateReservation() {
         return new ReservationDto(
                 visitDay.getDay(),
                 orderedMenu.getOrderedMenu(),

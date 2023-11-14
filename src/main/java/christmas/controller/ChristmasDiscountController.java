@@ -1,12 +1,12 @@
 package christmas.controller;
 
-import christmas.domain.OrderedMenu;
-import christmas.domain.VisitDay;
 import christmas.domain.dto.DiscountResultDto;
 import christmas.domain.dto.ReservationDto;
+import christmas.domain.menu.Foods;
 import christmas.service.ChristmasDiscountService;
 import christmas.view.InputView;
 import christmas.view.OutputView;
+import java.util.Map;
 
 public class ChristmasDiscountController {
 
@@ -27,9 +27,8 @@ public class ChristmasDiscountController {
     public void run() {
         outputView.displayWelcomeMessage();
 
-        VisitDay visitDay = getValidVisitDay();
-        OrderedMenu orderedMenu = getValidOrderMenu();
-        ReservationDto reservationDto = christmasService.reservation(visitDay, orderedMenu);
+        processReservation();
+        ReservationDto reservationDto = christmasService.calculateReservation();
 
         outputView.displayEventPreviewMessage(reservationDto);
 
@@ -40,21 +39,32 @@ public class ChristmasDiscountController {
         showFinalPaymentSummary(reservationDto, discountResultDto);
     }
 
-    private VisitDay getValidVisitDay() {
-        try {
-            return new VisitDay(inputView.getVisitDayFromInput());
-        } catch (IllegalArgumentException exception) {
-            System.out.println(exception.getMessage());
-            return getValidVisitDay();
+    private void processReservation() {
+        processVisitDayInput();
+        processOrderedMenuInput();
+    }
+
+    private void processVisitDayInput() {
+        while (true) {
+            try {
+                int visitDay = inputView.getVisitDayFromInput();
+                christmasService.generateValidVisitDay(visitDay);
+                break;
+            } catch (IllegalArgumentException exception) {
+                System.out.println(exception.getMessage());
+            }
         }
     }
 
-    private OrderedMenu getValidOrderMenu() {
-        try {
-            return new OrderedMenu(inputView.getMenuAndCountFromInput());
-        } catch (IllegalArgumentException exception) {
-            System.out.println(exception.getMessage());
-            return getValidOrderMenu();
+    private void processOrderedMenuInput() {
+        while (true) {
+            try {
+                Map<Foods, Integer> orderedMenu = inputView.getMenuAndCountFromInput();
+                christmasService.generateValidOrderedMenu(orderedMenu);
+                break;
+            } catch (IllegalArgumentException exception) {
+                System.out.println(exception.getMessage());
+            }
         }
     }
 
