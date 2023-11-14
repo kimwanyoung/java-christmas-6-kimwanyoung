@@ -20,9 +20,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 public class OutputView {
-
-    private static final String WELCOME_MESSAGE = "안녕하세요! 우테코 식당 12월 이벤트 플래너입니다.";
-    private static final String EVENT_PREVIEW_MESSAGE = "12월 %d일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!\n";
+    
     private static final String WON = "%s원\n";
     private static final String DISCOUNT_MESSAGE = "%s: ";
     private static final String NOTHING = "없음";
@@ -36,11 +34,11 @@ public class OutputView {
     }
 
     public void displayWelcomeMessage() {
-        printer.println(WELCOME_MESSAGE);
+        printer.println("안녕하세요! 우테코 식당 12월 이벤트 플래너입니다.");
     }
 
     public void displayEventPreviewMessage(ReservationDto reservationDto) {
-        printer.printf(EVENT_PREVIEW_MESSAGE, reservationDto.visitDay());
+        printer.printf("12월 %d일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!\n", reservationDto.visitDay());
     }
 
     public void displayOrderedMenu(ReservationDto reservationDto) {
@@ -71,7 +69,7 @@ public class OutputView {
     public void displayFinalPayment(ReservationDto reservationDto,
                                     DiscountResultDto discountResultDto) {
         printer.println(FINAL_PAYMENT_AMOUNT);
-        
+
         int totalOrderAmount = reservationDto.totalOrderAmount();
         int totalDiscountAmount = discountResultDto.totalDiscountAmount();
         int finalPayment = totalOrderAmount + totalDiscountAmount;
