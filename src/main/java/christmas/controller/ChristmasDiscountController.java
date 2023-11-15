@@ -12,27 +12,27 @@ public class ChristmasDiscountController {
 
     private final OutputView outputView;
     private final InputView inputView;
-    private final ChristmasDiscountService christmasService;
+    private final ChristmasDiscountService christmasDiscountService;
 
     public ChristmasDiscountController(
             OutputView outputView,
             InputView inputView,
-            ChristmasDiscountService service
+            ChristmasDiscountService christmasDiscountService
     ) {
         this.outputView = outputView;
         this.inputView = inputView;
-        this.christmasService = service;
+        this.christmasDiscountService = christmasDiscountService;
     }
 
     public void run() {
         outputView.displayWelcomeMessage();
 
         processReservation();
-        ReservationDto reservationDto = christmasService.calculateReservation();
+        ReservationDto reservationDto = christmasDiscountService.calculateReservation();
 
         outputView.displayEventPreviewMessage(reservationDto);
 
-        DiscountResultDto discountResultDto = christmasService.calculateDiscount();
+        DiscountResultDto discountResultDto = christmasDiscountService.calculateDiscount();
 
         showOrderSummary(reservationDto);
         showDiscountSummary(discountResultDto);
@@ -48,7 +48,7 @@ public class ChristmasDiscountController {
         while (true) {
             try {
                 int visitDay = inputView.getVisitDayFromInput();
-                christmasService.generateValidVisitDay(visitDay);
+                christmasDiscountService.generateValidVisitDay(visitDay);
                 break;
             } catch (IllegalArgumentException exception) {
                 System.out.println(exception.getMessage());
@@ -60,7 +60,7 @@ public class ChristmasDiscountController {
         while (true) {
             try {
                 Map<Foods, Integer> orderedMenu = inputView.getMenuAndCountFromInput();
-                christmasService.generateValidOrderedMenu(orderedMenu);
+                christmasDiscountService.generateValidOrderedMenu(orderedMenu);
                 break;
             } catch (IllegalArgumentException exception) {
                 System.out.println(exception.getMessage());
