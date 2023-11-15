@@ -1,12 +1,5 @@
 package christmas.view;
 
-import static christmas.constants.DiscountInfoConstants.DISCOUNT_DETAILS;
-import static christmas.constants.DiscountInfoConstants.EVENT_BADGE;
-import static christmas.constants.DiscountInfoConstants.FINAL_PAYMENT_AMOUNT;
-import static christmas.constants.DiscountInfoConstants.GIFT_MENU;
-import static christmas.constants.DiscountInfoConstants.ORDER_MENU;
-import static christmas.constants.DiscountInfoConstants.ORDER_TOTAL_AMOUNT;
-import static christmas.constants.DiscountInfoConstants.TOTAL_DISCOUNT_AMOUNT;
 import static christmas.domain.EventName.GIFT_EVENT;
 import static christmas.domain.menu.Foods.CHAMPAGNE;
 
@@ -20,11 +13,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 public class OutputView {
-    
-    private static final String WON = "%s원\n";
+
+    private static final String LINE_SEPARATOR = "\n";
+    private static final String WON = "%s원" + LINE_SEPARATOR;
     private static final String DISCOUNT_MESSAGE = "%s: ";
     private static final String NOTHING = "없음";
-    private static final String MENU_INFO = "%s %d개\n";
+    private static final String MENU_INFO = "%s %d개" + LINE_SEPARATOR;
     private static final DecimalFormat AMOUNT_FORMAT = new DecimalFormat("###,###");
 
     private final Printer printer;
@@ -42,33 +36,33 @@ public class OutputView {
     }
 
     public void displayOrderedMenu(ReservationDto reservationDto) {
-        printer.println(ORDER_MENU);
+        printer.println(LINE_SEPARATOR + "<주문 메뉴>");
         printMenuItems(reservationDto.orderedMenu());
     }
 
     public void displayTotalOrderAmount(ReservationDto reservationDto) {
-        printer.println(ORDER_TOTAL_AMOUNT);
+        printer.println(LINE_SEPARATOR + "<할인 전 총주문 금액>");
         printer.println(formattedAmount(reservationDto.totalOrderAmount()));
     }
 
     public void displayGift(DiscountResultDto discountResultDto) {
-        printer.println(GIFT_MENU);
+        printer.println(LINE_SEPARATOR + "<증정 메뉴>");
         printGift(discountResultDto.discountResult());
     }
 
     public void displayTotalDiscounts(DiscountResultDto discountResultDto) {
-        printer.println(DISCOUNT_DETAILS);
+        printer.println(LINE_SEPARATOR + "<혜택 내역>");
         printDiscountResult(discountResultDto.discountResult());
     }
 
     public void displayTotalDiscountAmount(DiscountResultDto discountResultDto) {
-        printer.println(TOTAL_DISCOUNT_AMOUNT);
+        printer.println(LINE_SEPARATOR + "<총혜택 금액>");
         printer.printf(WON, formattedAmount(discountResultDto.totalDiscountAmount()));
     }
 
     public void displayFinalPayment(ReservationDto reservationDto,
                                     DiscountResultDto discountResultDto) {
-        printer.println(FINAL_PAYMENT_AMOUNT);
+        printer.println(LINE_SEPARATOR + "<할인 후 예상 결제 금액>");
 
         int totalOrderAmount = reservationDto.totalOrderAmount();
         int totalDiscountAmount = discountResultDto.totalDiscountAmount();
@@ -78,7 +72,7 @@ public class OutputView {
     }
 
     public void displayBadge(DiscountResultDto discountResultDto) {
-        printer.println(EVENT_BADGE);
+        printer.println(LINE_SEPARATOR + "<12월 이벤트 배지>");
         String badge = Badge.calculateBadge(discountResultDto.totalDiscountAmount());
         printBadge(badge);
     }
@@ -112,7 +106,8 @@ public class OutputView {
     private void printDiscounts(Entry<EventName, Integer> discount) {
         String eventName = discount.getKey().getEventName();
         int discountAmount = discount.getValue();
-        printer.printf(DISCOUNT_MESSAGE + WON, eventName, formattedAmount(discountAmount));
+        printer.printf(DISCOUNT_MESSAGE + WON, eventName,
+                formattedAmount(discountAmount));
     }
 
     private void printPayment(Map<EventName, Integer> discountResult, int finalPayment) {
