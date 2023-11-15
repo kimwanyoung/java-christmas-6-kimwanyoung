@@ -25,15 +25,20 @@ public class DecemberDiscountEvents {
             return new DiscountResultDto(new HashMap<>(), 0);
         }
 
-        Map<EventName, Integer> discountStatistics = new HashMap<>();
-        addDiscountPolicySatisfiedCondition(discountStatistics);
-        addFreeGiftSatisfiedCondition(discountStatistics, totalOrderAmount);
+        Map<EventName, Integer> discountStatistics = calculateDiscountStatistics(totalOrderAmount);
         int totalDiscountAmount = calculateTotalDiscountAmount(discountStatistics);
 
         return new DiscountResultDto(
                 Collections.unmodifiableMap(discountStatistics),
                 totalDiscountAmount
         );
+    }
+
+    private Map<EventName, Integer> calculateDiscountStatistics(int totalOrderAmount) {
+        Map<EventName, Integer> discountStatistics = new HashMap<>();
+        addDiscountPolicySatisfiedCondition(discountStatistics);
+        addFreeGiftSatisfiedCondition(discountStatistics, totalOrderAmount);
+        return discountStatistics;
     }
 
     private void addDiscountPolicySatisfiedCondition(Map<EventName, Integer> discountStatistics) {
