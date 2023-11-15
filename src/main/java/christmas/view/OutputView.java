@@ -17,7 +17,7 @@ public class OutputView {
     private static final String LINE_SEPARATOR = "\n";
     private static final String WON = "%s원" + LINE_SEPARATOR;
     private static final String DISCOUNT_MESSAGE = "%s: ";
-    private static final String NOTHING = "없음";
+    private static final String NOTHING = "없음" + LINE_SEPARATOR;
     private static final String MENU_INFO = "%s %d개" + LINE_SEPARATOR;
     private static final DecimalFormat AMOUNT_FORMAT = new DecimalFormat("###,###");
 
